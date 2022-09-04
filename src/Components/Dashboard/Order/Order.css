@@ -1,0 +1,6 @@
+.hoverEffect:hover{
+   
+   background-color: #ffeb3b30;
+    transition: .5s;
+    cursor: crosshair;
+}
