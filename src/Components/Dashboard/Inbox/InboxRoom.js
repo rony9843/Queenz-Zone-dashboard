@@ -14,6 +14,7 @@ import React, { useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import InputFiles from "react-input-files";
 import styled from "styled-components";
+import EditModal from "./EditModal";
 import ModalProductList from "./ModalProductList";
 
 // modal style
@@ -301,9 +302,13 @@ export default function InboxRoom({
 
   const callMessage = (props) => {
     if (inboxRoom !== "") {
-      console.log(`https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${props}`);
+      console.log(
+        `https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${props}`
+      );
 
-      fetch(`https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${props}`)
+      fetch(
+        `https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${props}`
+      )
         .then((response) => response.json())
         .then((json) => {
           console.log(
@@ -349,8 +354,26 @@ export default function InboxRoom({
     }, 2000);
   }, [inboxRoom]);
 
+  // ^ message edit
+
+  const [editModalHtml, setEditModalHtml] = useState(false);
+
+  const messageEdtBtn = ({ btn, dt }) => {
+    console.log(btn, " : this is message edit : ", dt);
+    setEditModalHtml(
+      <EditModal
+        dt={dt}
+        btn={btn}
+        setEditModalHtml={setEditModalHtml}
+      ></EditModal>
+    );
+  };
+
   return (
     <InboxRoomBack>
+      {/* modal for edit product */}
+      {editModalHtml !== false && editModalHtml}
+      {/* modal for suggest a product */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -585,7 +608,9 @@ export default function InboxRoom({
                   />
                 </div>
                 <div className="dots_3">
-                  <MoreHorizIcon></MoreHorizIcon>
+                  <MoreHorizIcon
+                    onClick={() => messageEdtBtn({ btn: "image", dt: msg })}
+                  ></MoreHorizIcon>
                 </div>
               </div>
             ) : msg.message.message !== "" ? (
@@ -608,7 +633,9 @@ export default function InboxRoom({
                   <span>{msg.message.message}</span>
                 </div>
                 <div className="dots_3">
-                  <MoreHorizIcon></MoreHorizIcon>
+                  <MoreHorizIcon
+                    onClick={() => messageEdtBtn({ btn: "message", dt: msg })}
+                  ></MoreHorizIcon>
                 </div>
               </div>
             ) : (
@@ -632,8 +659,8 @@ export default function InboxRoom({
                   <img
                     src={
                       !msg.message.product.img[0][0][0] === "h"
-                        ? msg.message.product.img[0][0]
-                        : msg.message.product.img[0][0][0]
+                        ? msg.message.product.img[0][0][0]
+                        : msg.message.product.img[0][0]
                     }
                     alt=""
                     style={{ width: "100%", borderRadius: "5px" }}
@@ -667,7 +694,9 @@ export default function InboxRoom({
                   </div>
                 </div>
                 <div className="dots_3">
-                  <MoreHorizIcon></MoreHorizIcon>
+                  <MoreHorizIcon
+                    onClick={() => messageEdtBtn({ btn: "product", dt: msg })}
+                  ></MoreHorizIcon>
                 </div>
               </div>
             )

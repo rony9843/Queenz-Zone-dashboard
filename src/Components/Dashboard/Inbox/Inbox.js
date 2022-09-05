@@ -3,8 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import styled from "styled-components";
 import globeSocketIo from "../../../globeVar ";
+import InboxAccountDetalis from "./InboxAccountDetalis";
 import InboxLeftSide from "./InboxLeftSide";
 import InboxRoom from "./InboxRoom";
+import Notes from "./Notes";
+import OrderDetalis from "./OrderDetalis";
 
 export default function Inbox() {
   const socket = useRef();
@@ -26,14 +29,18 @@ export default function Inbox() {
   useEffect(() => {
     setTimeout(function () {
       setUpdateCount(updateCount + 1);
+      console.log("this is all online user : ", activeUser);
     }, 3000);
   }, [updateCount]);
 
   useEffect(() => {
     // get data
-    socket.current.on("get-online-user", (user) => {
+    socket.current.emit("user-connected", (user) => {});
+
+    // get data
+    socket.current.on("get-user-connected", (user) => {
       setActiveUser(user);
-      console.log("this is all online user : ", user);
+      console.log("this is all online user 1 : ", user);
 
       // update active user at setTimeOut
     });
@@ -41,13 +48,36 @@ export default function Inbox() {
 
   useEffect(() => {
     // get data
-    socket.current.on("get-all-online-user", (user) => {
+
+    // get data
+    socket.current.on("get-online-user-disconnect", (user) => {
       setActiveUser(user);
-      console.log("this is all online user : ", user);
+      console.log("this is all online user 4 : ", user);
 
       // update active user at setTimeOut
     });
   }, [socket]);
+
+  //call
+  useEffect(() => {
+    // get data
+    socket.current.on("get-online-user", (user) => {
+      setActiveUser(user);
+      console.log("this is all online user 2 : ", user);
+
+      // update active user at setTimeOut
+    });
+  }, [socket, updateCount]);
+
+  // useEffect(() => {
+  //   // get data
+  //   socket.current.on("get-all-online-user", (user) => {
+  //     setActiveUser(user);
+  //     console.log("this is all online user : ", user);
+
+  //     // update active user at setTimeOut
+  //   });
+  // }, [socket]);
 
   // useEffect(() => {
   //   // for user left side user update
@@ -73,7 +103,7 @@ export default function Inbox() {
 
         setInboxLeftSideCall(false);
       });
-  }, [InboxLeftSideCall, updateCount]);
+  }, [InboxLeftSideCall, updateCount, setInboxLeftSideCall]);
 
   // inbox left side
   useEffect(() => {
@@ -81,7 +111,7 @@ export default function Inbox() {
       .then((response) => response.json())
       .then((json) => {
         setInboxLeftSideInfo(json);
-        setActiveUser(activeUser);
+        //     setActiveUser(activeUser);
       });
   }, []);
 
@@ -128,6 +158,58 @@ export default function Inbox() {
     console.log("this is l;eft");
     setInboxOn(true);
   };
+
+  // ^ get all user account
+
+  const [userAllAcount, setUserAllAccount] = useState([]);
+
+  useEffect(() => {
+    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneFindAllUser")
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        setUserAllAccount(json);
+      });
+  }, [updateCount]);
+
+  // ^ user right side option
+  const [userRightSide, setUserRightSide] = useState();
+
+  // ^ notes
+
+  const [text, setText] = useState("");
+  const [notesNoti, setNotesNoti] = useState(false);
+
+  useEffect(() => {
+    fetch(
+      `https://glacial-shore-36532.herokuapp.com/queenZoneInboxNotesFind?roomName=${inboxRoom}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("this is length :: ", !json.length);
+
+        console.log("this is length :: ", !json[0].notes);
+        setNotesNoti(json[0].notes !== "" ? true : false);
+        console.log("this is data : ", inboxRoom);
+        setText(json[0].notes);
+      });
+  }, [inboxRoom]);
+
+  // ^ user all order
+  const [userOrder, setUserOrder] = useState(false);
+
+  useEffect(() => {
+    fetch(
+      `https://glacial-shore-36532.herokuapp.com/queenZoneOrderFindOneUser?email=${inboxRoom}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("this is order :: ", !json.length);
+        console.log("this is order :: ", json);
+
+        setUserOrder(!json.length === false ? json : false);
+      });
+  }, [inboxRoom, updateCount]);
 
   return (
     <InboxBack className="p-2">
@@ -349,26 +431,64 @@ export default function Inbox() {
                   borderRadius: "10px",
                 }}
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Cupiditate, quisquam! Lorem ipsum dolor sit amet consectetur,
-                tatibus eaque ex? Maxime perferendis voluptatibus illum.
-                Explicabo veniam saepe officiis.
+                <div
+                  className="p-2 mb-1 d-flex justify-content-between"
+                  style={{ backgroundColor: "#ffde4d", borderRadius: "5px" }}
+                >
+                  <div>
+                    <span>
+                      <b>All User</b>{" "}
+                    </span>
+                  </div>
+                  <div>
+                    <span>Total : {userAllAcount.length}</span>
+                  </div>
+                </div>
+                <div className="account_div">
+                  {userAllAcount.map((ac) => (
+                    <div
+                      className="px-1 mt-1 pt-1 d-flex justify-content-between"
+                      style={{
+                        backgroundColor: "#FFF3C1",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <div className="p-1">
+                        <span>{ac.email}</span>
+                      </div>
+                      <div>
+                        <Button
+                          style={{
+                            backgroundColor: "#ffde4d",
+                            boxShadow: "none",
+                            color: "black",
+                          }}
+                          onClick={() =>
+                            createInbox({
+                              onlineUser: {
+                                activeUserInfo: "old",
+                                oldUserInfo: { email: ac.email },
+                              },
+                            })
+                          }
+                          size="small"
+                          variant="contained"
+                        >
+                          ADD
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-2 InboxContainer ">
+        <div className="mt-2  ">
           <div className="row p-2">
             <div className="col-3 p-2  inbox-left">
-              <div
-                className="p-2"
-                style={{
-                  border: "2px solid #fec400",
-                  borderRadius: "10px",
-                  height: "450px",
-                }}
-              >
+              <div className="p-2 InboxContainer">
                 <div>
                   <div>
                     <span
@@ -432,24 +552,125 @@ export default function Inbox() {
                 )}
               </div>
             </div>
-            <div className="col-4 p-2  inbox-right">
+            <div className="col-4 p-2  ">
               <div
-                className="p-2"
+                className="p-2 inbox-right"
                 style={{ border: "2px solid #fec400", borderRadius: "10px" }}
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
-                deleniti reiciendis ad officia natus cumque, repudiandae
-                inventore nobis fugit pariatur? Quas exercitationem ipsum
-                impedit amet debitis asperiores adipisci omnis quisquam officia.
-                Esse, temporibus architecto? Esse debitis obcaecati placeat
-                laborum necessitatibus temporibus quis minima nobis molestiae
-                culpa nihil, fugiat quo incidunt qui quidem dolor repellendus
-                sed veritatis animi dolorem. Aliquid tenetur explicabo officiis
-                odit ipsa deleniti magni quas enim. Ipsa perferendis impedit
-                iusto debitis, recusandae odio pariatur officia dignissimos
-                sint. Accusantium placeat, optio pariatur vero iusto ullam ut.
-                Soluta est dolorum incidunt iure, voluptas laborum consequatur
-                esse, error libero nesciunt animi!
+                <div>
+                  <div class="d-flex justify-content-between">
+                    {" "}
+                    <div
+                      className="px-2 w-100 "
+                      style={{
+                        backgroundColor: `${
+                          userRightSide === "Details" ? "#fec400" : "white"
+                        }`,
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setUserRightSide("Details")}
+                    >
+                      <span
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: "bold",
+                          color: `${
+                            userRightSide === "Details" ? "white" : "#fec400"
+                          }`,
+                        }}
+                      >
+                        Details
+                      </span>
+                    </div>
+                    <div
+                      className="px-2 w-100 d-flex justify-content-center"
+                      style={{
+                        backgroundColor: `${
+                          userRightSide === "Order" ? "#fec400" : "white"
+                        }`,
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setUserRightSide("Order")}
+                    >
+                      <span
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: "bold",
+                          color: `${
+                            userRightSide === "Order" ? "white" : "#fec400"
+                          }`,
+                        }}
+                      >
+                        Order
+                      </span>
+                    </div>
+                    <div
+                      className="px-2 w-100 d-flex justify-content-end d-flex align-items-center"
+                      style={{
+                        backgroundColor: `${
+                          userRightSide === "Notes" ? "#fec400" : "white"
+                        }`,
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setUserRightSide("Notes")}
+                    >
+                      <div>
+                        <span
+                          style={{
+                            fontSize: "20px",
+                            fontWeight: "bold",
+                            color: `${
+                              userRightSide === "Notes" ? "white" : "#fec400"
+                            }`,
+                          }}
+                        >
+                          Notes
+                        </span>
+                      </div>
+                      {notesNoti && (
+                        <div
+                          class="spinner-grow text-primary mx-1"
+                          role="status"
+                          style={{ width: "10px", height: "10px" }}
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <hr
+                      style={{
+                        margin: "5px",
+                        color: " #fec400",
+                        height: "4px",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  {userRightSide === "Notes" ? (
+                    <Notes
+                      inboxRoom={inboxRoom}
+                      text={text}
+                      setText={setText}
+                    ></Notes>
+                  ) : (
+                    userRightSide === "Details" && (
+                      <InboxAccountDetalis
+                        inboxRoom={inboxRoom}
+                        userAllAcount={userAllAcount}
+                      ></InboxAccountDetalis>
+                    )
+                  )}
+                  {userRightSide === "Order" && userOrder !== false && (
+                    <OrderDetalis userOrder={userOrder}></OrderDetalis>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -473,5 +694,62 @@ const InboxBack = styled.div`
     border-radius: 5px;
   }
   .inbox-left-side {
+    overflow-y: scroll;
+    height: 450px;
+  }
+
+  .inbox-left-side::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .inbox-left-side::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #b3b3b3eb;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  .inbox-left-side::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  .inbox-left-side::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+  }
+
+  .InboxContainer {
+    border: 2px solid #fec400;
+    border-radius: 10px;
+    height: 510px;
+  }
+
+  .account_div {
+    overflow-y: scroll;
+    height: 235px;
+  }
+  .account_div::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .account_div::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #b3b3b3eb;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  .account_div::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  .account_div::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+  }
+  .inbox-right {
+    height: 510px;
   }
 `;

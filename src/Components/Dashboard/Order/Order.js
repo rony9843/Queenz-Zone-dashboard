@@ -109,10 +109,10 @@ export default function Order() {
       .then((response) => response.json())
       .then((json) => {
         setAllOrder(json);
-        console.log(json);
+        // console.log(json);
 
         _setAllOrder(json);
-        setOrder(json);
+
         const allOrderPendingFilter = json.filter(
           (or) => or.orderStatus === "Pending"
         );
@@ -129,6 +129,34 @@ export default function Order() {
         setReload(false);
       });
   }, [reload]);
+
+  const [callUseEffect, setCallUseEffect] = useState(false);
+
+  useEffect(() => {
+    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneAllOrder")
+      .then((response) => response.json())
+      .then((json) => {
+        setAllOrder(json);
+        console.log(json);
+        setOrder(json);
+        _setAllOrder(json);
+
+        const allOrderPendingFilter = json.filter(
+          (or) => or.orderStatus === "Pending"
+        );
+        _setPending(allOrderPendingFilter);
+        const allOrderOntheFilter = json.filter(
+          (or) => or.orderStatus === "On The Way"
+        );
+        _setOnTheWay(allOrderOntheFilter);
+        const allOrderComplFilter = json.filter(
+          (or) => or.orderStatus === "Complete"
+        );
+        _setOrderComplete(allOrderComplFilter);
+
+        setCallUseEffect(false);
+      });
+  }, [callUseEffect]);
 
   return (
     <div>
@@ -334,6 +362,7 @@ export default function Order() {
             )
             .map((or) => (
               <OrderList
+                setCallUseEffect={setCallUseEffect}
                 orderdetailsOption={orderdetailsOption}
                 setOrderDetailsOption={setOrderDetailsOption}
                 or={or}

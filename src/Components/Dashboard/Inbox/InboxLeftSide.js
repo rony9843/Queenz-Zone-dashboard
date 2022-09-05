@@ -173,10 +173,10 @@ export default function InboxLeftSide({
             </Avatar>{" "}
           </StyledBadge>
         </div>
-        <div style={{ marginLeft: "5px", fontSize: "14px" }}>
+        <div style={{ marginLeft: "5px" }}>
           <div>
             <span>
-              <b>@{dt.room}</b>
+              <b style={{ fontSize: "13px" }}>@{dt.room}</b>
             </span>
           </div>
           <div>

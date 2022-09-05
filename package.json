@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^35.1.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
     "@date-io/date-fns": "^2.13.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -21,6 +23,7 @@
     "axios": "^0.26.1",
     "cloudinary": "^1.31.0",
     "firebase": "^9.6.10",
+    "html-react-parser": "^3.0.4",
     "javascript-time-ago": "^2.5.7",
     "notistack": "^2.0.4",
     "nuka-carousel": "^5.0.8",
@@ -52,9 +55,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-
     "deploy": "npm run build && gh-pages -d build",
-
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

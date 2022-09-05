@@ -22,6 +22,7 @@ export default function OrderList({
   setReload,
   orderdetailsOption,
   setOrderDetailsOption,
+  setCallUseEffect,
 }) {
   //console.log("this is single order page : ", or);
 
@@ -572,6 +573,7 @@ export default function OrderList({
                                       .then((response) => response.json())
                                       .then((data) => {
                                         setReload(true);
+                                        setCallUseEffect(true);
                                         console.log("Success:", data);
                                       })
                                       .catch((error) => {
