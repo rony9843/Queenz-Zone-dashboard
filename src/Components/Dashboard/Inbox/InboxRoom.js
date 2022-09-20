@@ -90,20 +90,35 @@ export default function InboxRoom({
   };
 
   // online user select
-  const [onlineUser, setOnlineUser] = useState();
+  const [onlineUser, setOnlineUser] = useState(false);
 
   // for active user filter
   useEffect(() => {
     if (!activeUser.length === false) {
-      if (activeUser[0].onlineUser.activeUserInfo === "old") {
-        setOnlineUser(activeUser[0].onlineUser.oldUserInfo.email === inboxRoom);
-      } else {
-        setOnlineUser(activeUser[0].onlineUser.activeUserNumber === inboxRoom);
-      }
+      // if (activeUser[0].onlineUser.activeUserInfo === "old") {
+      //   setOnlineUser(activeUser[0].onlineUser.oldUserInfo.email === inboxRoom);
+      // } else {
+      //   setOnlineUser(activeUser[0].onlineUser.activeUserNumber === inboxRoom);
+      // }
+
+      const filterActiveUser = activeUser.filter((acUser) =>
+        acUser.onlineUser.activeUserInfo === "old"
+          ? acUser.onlineUser.oldUserInfo.email === inboxRoom
+          : acUser.onlineUser.activeUserInfo === "new" &&
+            acUser.onlineUser.activeUserNumber === inboxRoom
+      );
+
+      // console.log(
+      //   inboxRoom,
+      //   " : this is active user filter infoooo  : ",
+      //   filterActiveUser
+      // );
+
+      setOnlineUser(!filterActiveUser.length === false ? true : false);
     } else {
       setOnlineUser(false);
     }
-  }, [activeUser]);
+  }, [activeUser, inboxRoom]);
 
   const handleScrollClick = () => {
     if (scroll) {
@@ -137,6 +152,7 @@ export default function InboxRoom({
   const [imageLoading, setImageLoading] = useState(false);
 
   const sendImageInDataBase = () => {
+    setImageLoading(true);
     const data = new FormData();
     data.append("file", inputFile.fullImgDetails);
     data.append("upload_preset", "QueenzZone");
@@ -149,7 +165,7 @@ export default function InboxRoom({
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        setImageLoading(true);
+
         //   sendMessageBtn({ img: data.url });
         sendMessageBtn({ img: data.url, product: null });
       })
@@ -175,6 +191,8 @@ export default function InboxRoom({
           image: img ? img : null,
           product: product !== null ? product : null,
           time: new Date(),
+          userSeen: "unseen",
+          adminSeen: "seen",
         }),
       }
     )
@@ -202,6 +220,11 @@ export default function InboxRoom({
 
   // all message
   const [allMessage, setAllMessage] = useState([]);
+
+  // seen unseen
+  const [seen, setSeen] = useState(false);
+
+  const [visible, setVisible] = useState(false);
 
   const count = 1;
 
@@ -295,9 +318,6 @@ export default function InboxRoom({
   //   }, 1000);
   // };
 
-  // all message
-  const [thisUpdateCount, setthisUpdateCount] = useState();
-
   const [updateCount, setUpdateCount] = useState(1);
 
   const callMessage = (props) => {
@@ -321,6 +341,19 @@ export default function InboxRoom({
 
           setAllMessage(json);
           handleScrollClick();
+          fetchUpdateUnseenMessage(props);
+
+          // user seen unseen
+
+          const userSeenMsg = json.filter(
+            (msg) => msg.message.userSeen !== "seen"
+          );
+
+          console.log("this is user message seen : ", userSeenMsg);
+
+          setSeen(!userSeenMsg.length ? true : false);
+
+          setVisible(!userSeenMsg.length ? true : false);
         });
     }
   };
@@ -331,15 +364,21 @@ export default function InboxRoom({
     }, 1000);
   }, [inboxRoom, updateCount]);
 
+  const fetchUpdateUnseenMessage = (props) => {
+    fetch(
+      `https://glacial-shore-36532.herokuapp.com/adminSeenUpdateInboxMessage?roomName=${props}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(updateCount, ` seen update admin `, json);
+      });
+  };
+
   useEffect(() => {
     handleScrollClick();
   }, [inboxRoom]);
 
   // ================== submit btn
-
-  const submitBnt = () => {
-    console.log("submitBtn clicked");
-  };
 
   function handleOnEnter() {
     sendMessage !== "" && sendMessageBtn({ img: null, product: null });
@@ -591,7 +630,7 @@ export default function InboxRoom({
                 className={`${
                   msg.message.sender === "admin"
                     ? "admin d-flex flex-row-reverse align-items-center"
-                    : "others"
+                    : "others d-flex  align-items-center "
                 }`}
               >
                 <div
@@ -602,7 +641,7 @@ export default function InboxRoom({
                   }`}
                 >
                   <img
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", borderRadius: "5px" }}
                     src={msg.message.image}
                     alt="Pic"
                   />
@@ -630,7 +669,9 @@ export default function InboxRoom({
                       : "others-main"
                   }`}
                 >
-                  <span>{msg.message.message}</span>
+                  <div>
+                    <span>{msg.message.message}</span>
+                  </div>
                 </div>
                 <div className="dots_3">
                   <MoreHorizIcon
@@ -700,6 +741,26 @@ export default function InboxRoom({
                 </div>
               </div>
             )
+          )}
+
+          {seen && (
+            <div>
+              <div class="d-flex justify-content-end px-2">
+                {" "}
+                <div
+                  style={{
+                    background: deepOrange[500],
+                    borderRadius: "50%",
+                    width: "20px",
+                    height: "20px",
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>{inboxRoom.charAt(0)}</span>
+                </div>
+              </div>
+            </div>
           )}
 
           <div ref={messageEndRef}></div>
@@ -784,7 +845,6 @@ export default function InboxRoom({
         )}
         <div style={{ width: "40px" }}>
           <div
-            onClick={() => submitBnt()}
             style={{
               backgroundColor: "white",
               border: "1px solid #eaeaea",
@@ -854,8 +914,16 @@ const InboxRoomBack = styled.div`
     display: block;
     cursor: pointer;
   }
+
+  .others:hover .dots_3 {
+    display: block;
+    cursor: pointer;
+  }
   .others {
-    // background-color: #6495ed;
+    align-self: flex-end;
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
   .admin-main {
     background-color: #efefef;
@@ -880,6 +948,14 @@ const InboxRoomBack = styled.div`
     display: inline-block;
     padding: 10px;
     border-radius: 20px 20px 5px 20px;
+    margin: 3px 10px;
+  }
+  .others-main-image {
+    width: 50%;
+    background-color: #6495ed;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 20px 20px 20px 5px;
     margin: 3px 10px;
   }
   .dots_3 {

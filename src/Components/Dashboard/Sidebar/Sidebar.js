@@ -6,7 +6,7 @@ import ClassIcon from "@mui/icons-material/Class";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Shop2Icon from "@mui/icons-material/Shop2";
-import { default as React, useContext, useState } from "react";
+import { default as React, useContext, useEffect, useState } from "react";
 import logo from "../../../Asset/queenz_zone_logo.png";
 import { FunctionBarSelectionContext } from "../MainDashboard/MainDashboard";
 
@@ -24,6 +24,10 @@ export default function Sidebar() {
     setOptionSelectState(props);
     setFunctionBarSelectionName(props);
   };
+
+  useEffect(() => {
+    optionSelect("Inbox");
+  }, []);
 
   return (
     <div>

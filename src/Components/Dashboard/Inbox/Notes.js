@@ -5,6 +5,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function Notes({ inboxRoom, text, setText }) {
+  // ^ save notification
+  const [notification, setNotification] = useState(false);
+
+  const callNoti = () => {
+    setNotification(true);
+    setTimeout(alertFun, 3000);
+  };
+
+  const alertFun = () => {
+    console.log("this is time for alert");
+    setNotification(false);
+  };
+
   // ^ for save
   const saveText = () => {
     fetch("https://glacial-shore-36532.herokuapp.com/queenZoneInboxNotes", {
@@ -16,7 +29,10 @@ export default function Notes({ inboxRoom, text, setText }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setText(data[0].notes);
+        console.log("this is save btn for fetch : ", data);
+        setText(data.notes);
+
+        callNoti();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -28,9 +44,10 @@ export default function Notes({ inboxRoom, text, setText }) {
 
   useEffect(() => {
     setTimeout(function () {
-      setUpdateCount(updateCount + 1);
       saveText();
-    }, 20000);
+      console.log("this is auto save function ", updateCount);
+      setUpdateCount(updateCount + 1);
+    }, 200000);
   }, [updateCount]);
 
   return (
@@ -66,6 +83,20 @@ export default function Notes({ inboxRoom, text, setText }) {
               Cancel
             </Button>
           </div>
+          {notification === true && (
+            <div
+              className="p-1 px-5"
+              style={{
+                backgroundColor: "green",
+                fontWeight: "bold",
+                color: "white",
+                borderRadius: "5px",
+                fontSize: "13px",
+              }}
+            >
+              Saved
+            </div>
+          )}
 
           <div>
             <Button

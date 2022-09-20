@@ -18,6 +18,8 @@ export default function InboxLeftSide({
   inboxRoom,
   activeUser,
   updateCount,
+  InboxLeftSideCall,
+  setUserRightSide,
 }) {
   // online user select
   const [onlineUser, setOnlineUser] = useState();
@@ -62,6 +64,10 @@ export default function InboxLeftSide({
   // all message
   const [allMessage, setAllMessage] = useState(false);
 
+  // admin unseen message
+
+  const [unseenMsg, setUnseenMsg] = useState(false);
+
   // for fetch message
   useEffect(() => {
     //  console.log("this is json ", golData);
@@ -71,7 +77,7 @@ export default function InboxLeftSide({
     )
       .then((response) => response.json())
       .then((json) => {
-        console.log("this is json ", json);
+        console.log("this is json  message :", json);
         // const filterData = json.filter(
         //   (dt) => dt.message.room === golData.room
         // );
@@ -83,7 +89,17 @@ export default function InboxLeftSide({
         //   lastElement.message.time ? lastElement.message.time : false
         // );
 
-        setAllMessage(json[0].message.time ? json[0].message.time : false);
+        if (!json.length === false) {
+          setUnseenMsg(json[0].message.adminSeen !== "seen" ? true : false);
+        }
+
+        setAllMessage(
+          !json.length
+            ? false
+            : json[0].message.time
+            ? json[0].message.time
+            : false
+        );
       });
 
     seCallUseEffect(false);
@@ -124,18 +140,107 @@ export default function InboxLeftSide({
   //   //  activeUser.map(dt=> dt. inboxRoom.room )
   // }, [socket]);
 
+  // ^ not working
   // for active user filter
+  // useEffect(() => {
+  //   if (!activeUser.length === false) {
+  //     // active user exist
+
+  //     if (activeUser[0].onlineUser.activeUserInfo === "old") {
+  //       setOnlineUser(activeUser[0].onlineUser.oldUserInfo.email === dt.room);
+  //       console.log("this is active user useEffect ::: 1", activeUser);
+  //     } else {
+  //       setOnlineUser(activeUser[0].onlineUser.activeUserNumber === dt.room);
+  //       console.log(
+  //         "this is active user useEffect ::: 2",
+  //         activeUser[0].onlineUser.activeUserNumber === dt.room
+  //       );
+  //     }
+  //   } else {
+  //     // active user not exist
+  //     setOnlineUser(false);
+  //   }
+  // }, [activeUser, updateCount]);
+  // ! end
+
+  // ^ this is new filter
   useEffect(() => {
     if (!activeUser.length === false) {
-      if (activeUser[0].onlineUser.activeUserInfo === "old") {
-        setOnlineUser(activeUser[0].onlineUser.oldUserInfo.email === dt.room);
-      } else {
-        setOnlineUser(activeUser[0].onlineUser.activeUserNumber === dt.room);
-      }
+      // console.log("this is active user useEffect ", activeUser);
+      // console.log("this is active user useEffect ", dt);
+
+      // ! not working
+      // for (let i = 0; i < activeUser.length; i++) {
+      //   if (activeUser[i].onlineUser.activeUserInfo === "new") {
+      //     // setOnlineUser(
+      //     //   activeUser[index].onlineUser.activeUserNumber === dt.room
+      //     // );
+
+      //     console.log(
+      //       activeUser[i].onlineUser.activeUserNumber,
+      //       " :=> ",
+      //       dt.room,
+      //       " ",
+      //       activeUser[i].onlineUser.activeUserNumber === dt.room
+      //     );
+      //   } else {
+      //     // setOnlineUser(
+      //     //   activeUser[index].onlineUser.oldUserInfo.email === dt.room
+      //     // );
+
+      //     console.log(
+      //       activeUser[i].onlineUser.oldUserInfo.email,
+      //       " :=> ",
+      //       dt.room,
+      //       " ",
+      //       activeUser[i].onlineUser.oldUserInfo.email === dt.room
+      //     );
+      //   }
+
+      //   // console.log(i, " :this is active user useEffect =>", activeUser);
+
+      //   // if(acUser.onlineUser.activeUserInfo === "new"){
+      //   //   setOnlineUser(acUser.onlineUser.activeUserNumber === dt.room)
+      //   // }else{
+
+      //   // }
+      // }
+
+      const filterActiveUser = activeUser.filter((acUser) =>
+        acUser.onlineUser.activeUserInfo === "old"
+          ? acUser.onlineUser.oldUserInfo.email === dt.room
+          : acUser.onlineUser.activeUserInfo === "new" &&
+            acUser.onlineUser.activeUserNumber === dt.room
+      );
+
+      console.log("this is active user filter infoooo  : ", filterActiveUser);
+
+      setOnlineUser(!filterActiveUser.length === false ? true : false);
+
+      // console.log(
+      //   "this is reduce : ",
+      //   activeUser.reduce((acUser) =>
+      //   if(){
+
+      //   }else{
+
+      //   }
+      //   )
+      // );
+
+      // const thisUserIsActive = activeUser.map((acUser) =>
+
+      //   console.log("this is active user useEffect -->> ", acUser)
+      // );
     } else {
       setOnlineUser(false);
+
+      console.log(
+        " :this is active user useEffect nottttttttttttttttttttttttttt =>",
+        activeUser
+      );
     }
-  }, [activeUser]);
+  }, [activeUser, InboxLeftSideCall]);
 
   // useEffect(() => {
   //   if (!activeUser.length) {
@@ -154,7 +259,12 @@ export default function InboxLeftSide({
   // }, []);
 
   return (
-    <InboxLeftSideBack onClick={() => seInboxRoom(dt.room)}>
+    <InboxLeftSideBack
+      onClick={() => {
+        seInboxRoom(dt.room);
+        setUserRightSide("Notes");
+      }}
+    >
       {" "}
       <div
         className={` ${
@@ -180,7 +290,13 @@ export default function InboxLeftSide({
             </span>
           </div>
           <div>
-            <span style={{ color: "gray", fontSize: "13px" }}>
+            <span
+              style={{
+                color: `${unseenMsg ? "black" : "gray"}`,
+                fontSize: "13px",
+                fontWeight: `${unseenMsg ? "bold" : "normal"}`,
+              }}
+            >
               {allMessage !== false
                 ? timeAgo.format(new Date(allMessage))
                 : "----"}
@@ -201,6 +317,7 @@ const InboxLeftSideBack = styledCom.div`
     margin-top:10px;
     border-radius : 20px 5px  5px  20px ;
     cursor : pointer;
+    transition : 0.5s;
   }
   .activeOption{
     background-color: #ffde4d47;

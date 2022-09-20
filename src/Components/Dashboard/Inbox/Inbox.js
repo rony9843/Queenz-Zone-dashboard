@@ -1,3 +1,7 @@
+import LoupeIcon from "@mui/icons-material/Loupe";
+import MailIcon from "@mui/icons-material/Mail";
+import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import Button from "@mui/material/Button";
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
@@ -10,14 +14,9 @@ import Notes from "./Notes";
 import OrderDetalis from "./OrderDetalis";
 
 export default function Inbox() {
-  const socket = useRef();
-  socket.current = io(globeSocketIo);
-
   const [activeUser, setActiveUser] = useState([]);
 
   const [InboxLeftSideCall, setInboxLeftSideCall] = useState(false);
-
-  const [callUse, setcallUse] = useState(false);
 
   // useEffect(() => {
   //   setcallUse(true);
@@ -33,13 +32,19 @@ export default function Inbox() {
     }, 3000);
   }, [updateCount]);
 
+  // ^ start
+  const socket = useRef();
+
   useEffect(() => {
     // get data
-    socket.current.emit("user-connected", (user) => {});
+    // socket.current.emit("user-connected", (user) => {});
+
+    socket.current = io(globeSocketIo);
 
     // get data
     socket.current.on("get-user-connected", (user) => {
       setActiveUser(user);
+
       console.log("this is all online user 1 : ", user);
 
       // update active user at setTimeOut
@@ -48,7 +53,7 @@ export default function Inbox() {
 
   useEffect(() => {
     // get data
-
+    socket.current = io(globeSocketIo);
     // get data
     socket.current.on("get-online-user-disconnect", (user) => {
       setActiveUser(user);
@@ -60,6 +65,7 @@ export default function Inbox() {
 
   //call
   useEffect(() => {
+    socket.current = io(globeSocketIo);
     // get data
     socket.current.on("get-online-user", (user) => {
       setActiveUser(user);
@@ -68,6 +74,8 @@ export default function Inbox() {
       // update active user at setTimeOut
     });
   }, [socket, updateCount]);
+
+  // ! enddddddd
 
   // useEffect(() => {
   //   // get data
@@ -205,7 +213,11 @@ export default function Inbox() {
       .then((response) => response.json())
       .then((json) => {
         console.log("this is order :: ", !json.length);
-        console.log("this is order :: ", json);
+        console.log("this is order :: inside : -> ", json);
+        console.log(
+          "this is update for user oder count inside : ",
+          updateCount
+        );
 
         setUserOrder(!json.length === false ? json : false);
       });
@@ -520,8 +532,10 @@ export default function Inbox() {
                     .sort((a, b) => b.time.localeCompare(a.time))
                     .map((dt) => (
                       <InboxLeftSide
+                        InboxLeftSideCall={InboxLeftSideCall}
                         updateCount={updateCount}
                         inboxRoom={inboxRoom}
+                        setUserRightSide={setUserRightSide}
                         seInboxRoom={seInboxRoom}
                         dt={dt}
                         activeUser={activeUser}
@@ -541,14 +555,33 @@ export default function Inbox() {
                   height: "510px",
                 }}
               >
-                {inboxOn && (
-                  <InboxRoom
-                    activeUser={activeUser}
-                    inboxRoom={inboxRoom}
-                    getProduct={getProduct}
-                    setAllProduct={setAllProduct}
-                    allProduct={allProduct}
-                  ></InboxRoom>
+                {inboxRoom === "" ? (
+                  <div className="emptyRoom">
+                    <div className="mt-5 pt-5  d-flex justify-content-center">
+                      <MailIcon
+                        className="emptyRoom_icon"
+                        style={{
+                          border: "none",
+                          fontSize: "100px",
+                          marginTop: "70px",
+                          opacity: "70%",
+                        }}
+                      ></MailIcon>
+                    </div>
+                    <div className="mt-3 d-flex justify-content-center">
+                      Please select any inbox
+                    </div>
+                  </div>
+                ) : (
+                  inboxOn && (
+                    <InboxRoom
+                      activeUser={activeUser}
+                      inboxRoom={inboxRoom}
+                      getProduct={getProduct}
+                      setAllProduct={setAllProduct}
+                      allProduct={allProduct}
+                    ></InboxRoom>
+                  )
                 )}
               </div>
             </div>
@@ -560,117 +593,204 @@ export default function Inbox() {
                 <div>
                   <div class="d-flex justify-content-between">
                     {" "}
-                    <div
-                      className="px-2 w-100 "
-                      style={{
-                        backgroundColor: `${
-                          userRightSide === "Details" ? "#fec400" : "white"
-                        }`,
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => setUserRightSide("Details")}
-                    >
-                      <span
+                    {inboxRoom.includes("@") && (
+                      <div
+                        className="px-2 w-100 "
                         style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          color: `${
-                            userRightSide === "Details" ? "white" : "#fec400"
+                          backgroundColor: `${
+                            userRightSide === "Details" ? "#fec400" : "white"
                           }`,
+                          borderRadius: "5px",
+                          cursor: "pointer",
                         }}
+                        onClick={() => setUserRightSide("Details")}
                       >
-                        Details
-                      </span>
-                    </div>
-                    <div
-                      className="px-2 w-100 d-flex justify-content-center"
-                      style={{
-                        backgroundColor: `${
-                          userRightSide === "Order" ? "#fec400" : "white"
-                        }`,
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => setUserRightSide("Order")}
-                    >
-                      <span
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          color: `${
-                            userRightSide === "Order" ? "white" : "#fec400"
-                          }`,
-                        }}
-                      >
-                        Order
-                      </span>
-                    </div>
-                    <div
-                      className="px-2 w-100 d-flex justify-content-end d-flex align-items-center"
-                      style={{
-                        backgroundColor: `${
-                          userRightSide === "Notes" ? "#fec400" : "white"
-                        }`,
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => setUserRightSide("Notes")}
-                    >
-                      <div>
                         <span
                           style={{
                             fontSize: "20px",
                             fontWeight: "bold",
                             color: `${
-                              userRightSide === "Notes" ? "white" : "#fec400"
+                              userRightSide === "Details" ? "white" : "#fec400"
                             }`,
                           }}
                         >
-                          Notes
+                          Details
                         </span>
                       </div>
-                      {notesNoti && (
-                        <div
-                          class="spinner-grow text-primary mx-1"
-                          role="status"
-                          style={{ width: "10px", height: "10px" }}
-                        >
-                          <span class="visually-hidden">Loading...</span>
+                    )}
+                    {inboxRoom.includes("@") && (
+                      <div
+                        className="px-2 w-100 d-flex justify-content-center"
+                        style={{
+                          alignContent: "space-between",
+                          alignItems: "center",
+                          backgroundColor: `${
+                            userRightSide === "Order" ? "#fec400" : "white"
+                          }`,
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => setUserRightSide("Order")}
+                      >
+                        <div>
+                          <span
+                            style={{
+                              fontSize: "20px",
+                              fontWeight: "bold",
+                              color: `${
+                                userRightSide === "Order" ? "white" : "#fec400"
+                              }`,
+                            }}
+                          >
+                            Order
+                          </span>
                         </div>
-                      )}
+
+                        {userOrder !== false && (
+                          <div
+                            class="spinner-grow text-primary mx-1"
+                            role="status"
+                            style={{ width: "10px", height: "10px" }}
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {inboxRoom !== "" && (
+                      <div
+                        className={`px-2 w-100 d-flex ${
+                          inboxRoom.includes("@")
+                            ? "justify-content-end"
+                            : "justify-content-center"
+                        } d-flex align-items-center`}
+                        style={{
+                          backgroundColor: `${
+                            userRightSide === "Notes" ? "#fec400" : "white"
+                          }`,
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => setUserRightSide("Notes")}
+                      >
+                        <div>
+                          <span
+                            style={{
+                              fontSize: "20px",
+                              fontWeight: "bold",
+                              color: `${
+                                userRightSide === "Notes" ? "white" : "#fec400"
+                              }`,
+                            }}
+                          >
+                            Notes
+                          </span>
+                        </div>
+                        {notesNoti && (
+                          <div
+                            class="spinner-grow text-primary mx-1"
+                            role="status"
+                            style={{ width: "10px", height: "10px" }}
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {inboxRoom !== "" && (
+                    <div>
+                      <hr
+                        style={{
+                          margin: "5px",
+                          color: " #fec400",
+                          height: "4px",
+                          borderRadius: "10px",
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {inboxRoom === "" ? (
+                  <div className="inboxRightSideLoading ">
+                    <div className=" d-flex justify-content-center">
+                      <div>
+                        <SpeakerNotesIcon className="inboxRightSideLoading_icon"></SpeakerNotesIcon>
+                      </div>
+                      <div>
+                        <LoupeIcon className="inboxRightSideLoading_icon"></LoupeIcon>
+                      </div>
+                      <div>
+                        <NoteAltIcon className="inboxRightSideLoading_icon"></NoteAltIcon>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      <span className="inboxRightSideLoading_text">
+                        Please select any inbox
+                      </span>
                     </div>
                   </div>
+                ) : (
                   <div>
-                    <hr
-                      style={{
-                        margin: "5px",
-                        color: " #fec400",
-                        height: "4px",
-                        borderRadius: "10px",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div>
-                  {userRightSide === "Notes" ? (
+                    {userRightSide === "Order"
+                      ? userOrder !== false && (
+                          <OrderDetalis userOrder={userOrder}></OrderDetalis>
+                        )
+                      : userRightSide === "Details" && (
+                          <InboxAccountDetalis
+                            inboxRoom={inboxRoom}
+                            userAllAcount={userAllAcount}
+                          ></InboxAccountDetalis>
+                        )}
+
+                    {userRightSide === "Order" && userOrder === false && (
+                      <div>
+                        <div class="d-flex justify-content-end">
+                          <div
+                            className="p-1 px-3"
+                            style={{
+                              backgroundColor: "#ff5959",
+                              color: "white",
+                              borderRadius: "5px",
+                              width: "100px",
+                              fontSize: "13px",
+                            }}
+                          >
+                            <span className="px-2">Live</span>
+                            <span
+                              style={{ width: "15px", height: "15px" }}
+                              class="spinner-grow spinner-grow-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                          </div>
+                        </div>
+                        <div
+                          class="d-flex justify-content-center"
+                          style={{ color: "gray" }}
+                        >
+                          ...Order not found...
+                        </div>
+                      </div>
+                    )}
+
+                    {/* {userRightSide === "Notes" && userOrder !== false && (
                     <Notes
                       inboxRoom={inboxRoom}
                       text={text}
                       setText={setText}
                     ></Notes>
-                  ) : (
-                    userRightSide === "Details" && (
-                      <InboxAccountDetalis
+                  )} */}
+                    {userRightSide === "Notes" && (
+                      <Notes
                         inboxRoom={inboxRoom}
-                        userAllAcount={userAllAcount}
-                      ></InboxAccountDetalis>
-                    )
-                  )}
-                  {userRightSide === "Order" && userOrder !== false && (
-                    <OrderDetalis userOrder={userOrder}></OrderDetalis>
-                  )}
-                </div>
+                        text={text}
+                        setText={setText}
+                      ></Notes>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -751,5 +871,36 @@ const InboxBack = styled.div`
   }
   .inbox-right {
     height: 510px;
+  }
+
+  .emptyRoom {
+    color: gray;
+  }
+  .emptyRoom_icon {
+    animation: messageIcon 10s infinite;
+  }
+
+  .inboxRightSideLoading {
+    margin-top: 200px;
+  }
+  .inboxRightSideLoading {
+    color: gray;
+  }
+  .inboxRightSideLoading_icon {
+    font-size: 40px;
+    margin: 20px 10px;
+    animation: messageIcon 5s infinite;
+  }
+  .inboxRightSideLoading_text {
+    margin-top: 2px;
+  }
+
+  @keyframes messageIcon {
+    from {
+      rotate: -360deg;
+    }
+    to {
+      rotate: 360deg;
+    }
   }
 `;
