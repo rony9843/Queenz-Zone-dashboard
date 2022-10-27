@@ -449,7 +449,7 @@ export default function OrderList({
                           <div className=" p-1 row">
                             <div className="col-2">
                               <img
-                                style={{ width: "170px", borderRadius: "5px" }}
+                                style={{ width: "100%", borderRadius: "5px" }}
                                 src={pd[1][0]}
                                 alt=""
                               />

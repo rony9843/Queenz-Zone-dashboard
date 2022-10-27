@@ -1,10 +1,16 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-export default function Notes({ inboxRoom, text, setText }) {
+export default function Notes({
+  inboxRoom,
+  text,
+  setText,
+  oldText,
+  setOldText,
+}) {
   // ^ save notification
   const [notification, setNotification] = useState(false);
 
@@ -31,24 +37,29 @@ export default function Notes({ inboxRoom, text, setText }) {
       .then((data) => {
         console.log("this is save btn for fetch : ", data);
         setText(data.notes);
+        setOldText(data.notes);
 
         callNoti();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+
+    console.log("this is setetst ::  ", oldText !== text);
+    console.log("this is setetst ::  ", text);
+    console.log("this is setetst ::  ", oldText);
   };
 
   // for auto save
   const [updateCount, setUpdateCount] = useState(1);
 
-  useEffect(() => {
-    setTimeout(function () {
-      saveText();
-      console.log("this is auto save function ", updateCount);
-      setUpdateCount(updateCount + 1);
-    }, 200000);
-  }, [updateCount]);
+  // useEffect(() => {
+  //   setTimeout(function () {
+  //     saveText();
+  //     console.log("this is auto save function ", updateCount);
+  //     setUpdateCount(updateCount + 1);
+  //   }, 5000);
+  // }, [updateCount]);
 
   return (
     <div>
@@ -99,14 +110,24 @@ export default function Notes({ inboxRoom, text, setText }) {
           )}
 
           <div>
-            <Button
-              onClick={() => saveText()}
-              style={{ boxShadow: "none", backgroundColor: "#fec400" }}
-              size="small"
-              variant="contained"
-            >
-              Save
-            </Button>
+            {oldText !== text ? (
+              <Button
+                onClick={() => saveText()}
+                style={{ boxShadow: "none", backgroundColor: "#fec400" }}
+                size="small"
+                variant="contained"
+              >
+                Save
+              </Button>
+            ) : (
+              <Button
+                style={{ boxShadow: "none", backgroundColor: "gray" }}
+                size="small"
+                variant="contained"
+              >
+                Save
+              </Button>
+            )}
           </div>
         </div>
       </NotesEditorback>

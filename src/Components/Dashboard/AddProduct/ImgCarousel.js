@@ -3,6 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import CarusalColorBtn from "./CarusalColorBtn";
 import SigleProductCarosel from "./SigleProductCarosel";
+
 export default function ImgCarousel({ AlOverProductInfoContext, AllInfo }) {
   console.log("this is carusal : ", AlOverProductInfoContext);
   //   console.log("this is carusal AllInfo : ", Array.isArray(AllInfo[0]));

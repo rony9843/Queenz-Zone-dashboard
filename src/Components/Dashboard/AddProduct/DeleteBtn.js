@@ -35,7 +35,12 @@ export default function DeleteBtn({
         submitPicBtndisabled > 1 ? (
           <button
             style={{
-              padding: "3px 25px",
+              width: "100%",
+              height: "27px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+
               border: `${
                 submitPicBtndisabled > 1 ? " 1px solid #999999" : "none"
               }`,
@@ -54,7 +59,11 @@ export default function DeleteBtn({
         ) : (
           <button
             style={{
-              padding: "3px 25px",
+              width: "100%",
+              height: "27px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
               border: `${
                 submitPicBtndisabled > 1 ? " 1px solid #999999" : "none"
               }`,
@@ -78,7 +87,12 @@ export default function DeleteBtn({
       ) : (
         <button
           style={{
-            padding: "3px 25px",
+            width: "100%",
+            height: "27px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+
             border: `${dltSucc === true ? "none" : "1px solid #999999"}`,
 
             backgroundColor: `${dltSucc === true ? "#cccccc" : "red"}`,

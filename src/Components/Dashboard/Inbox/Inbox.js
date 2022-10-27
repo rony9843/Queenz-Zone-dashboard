@@ -3,17 +3,17 @@ import MailIcon from "@mui/icons-material/Mail";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import Button from "@mui/material/Button";
-import React, { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import globeSocketIo from "../../../globeVar ";
 import InboxAccountDetalis from "./InboxAccountDetalis";
 import InboxLeftSide from "./InboxLeftSide";
 import InboxRoom from "./InboxRoom";
 import Notes from "./Notes";
 import OrderDetalis from "./OrderDetalis";
 
-export default function Inbox() {
+export default function Inbox({ activeUserGlobal }) {
+  console.log("this is active user global : ", activeUserGlobal);
+
   const [activeUser, setActiveUser] = useState([]);
 
   const [InboxLeftSideCall, setInboxLeftSideCall] = useState(false);
@@ -28,52 +28,52 @@ export default function Inbox() {
   useEffect(() => {
     setTimeout(function () {
       setUpdateCount(updateCount + 1);
-      console.log("this is all online user : ", activeUser);
+      console.log("this is all online user inbox : ", activeUser);
     }, 3000);
   }, [updateCount]);
 
-  // ^ start
-  const socket = useRef();
+  // ^ start socket io
+  // const socket = useRef();
 
-  useEffect(() => {
-    // get data
-    // socket.current.emit("user-connected", (user) => {});
+  // useEffect(() => {
+  //   // get data
+  //   // socket.current.emit("user-connected", (user) => {});
 
-    socket.current = io(globeSocketIo);
+  //   socket.current = io(globeSocketIo);
 
-    // get data
-    socket.current.on("get-user-connected", (user) => {
-      setActiveUser(user);
+  //   // get data
+  //   socket.current.on("get-user-connected", (user) => {
+  //     setActiveUser(user);
 
-      console.log("this is all online user 1 : ", user);
+  //     console.log("this is all online user 1 : ", user);
 
-      // update active user at setTimeOut
-    });
-  }, [socket]);
+  //     // update active user at setTimeOut
+  //   });
+  // }, [socket]);
 
-  useEffect(() => {
-    // get data
-    socket.current = io(globeSocketIo);
-    // get data
-    socket.current.on("get-online-user-disconnect", (user) => {
-      setActiveUser(user);
-      console.log("this is all online user 4 : ", user);
+  // useEffect(() => {
+  //   // get data
+  //   socket.current = io(globeSocketIo);
+  //   // get data
+  //   socket.current.on("get-online-user-disconnect", (user) => {
+  //     setActiveUser(user);
+  //     console.log("this is all online user 4 : ", user);
 
-      // update active user at setTimeOut
-    });
-  }, [socket]);
+  //     // update active user at setTimeOut
+  //   });
+  // }, [socket]);
 
-  //call
-  useEffect(() => {
-    socket.current = io(globeSocketIo);
-    // get data
-    socket.current.on("get-online-user", (user) => {
-      setActiveUser(user);
-      console.log("this is all online user 2 : ", user);
+  // //call
+  // useEffect(() => {
+  //   socket.current = io(globeSocketIo);
+  //   // get data
+  //   socket.current.on("get-online-user", (user) => {
+  //     setActiveUser(user);
+  //     console.log("this is all online user 2 : ", user);
 
-      // update active user at setTimeOut
-    });
-  }, [socket, updateCount]);
+  //     // update active user at setTimeOut
+  //   });
+  // }, [socket, updateCount]);
 
   // ! enddddddd
 
@@ -186,6 +186,9 @@ export default function Inbox() {
   // ^ notes
 
   const [text, setText] = useState("");
+
+  const [oldText, setOldText] = useState("");
+
   const [notesNoti, setNotesNoti] = useState(false);
 
   useEffect(() => {
@@ -200,6 +203,7 @@ export default function Inbox() {
         setNotesNoti(json[0].notes !== "" ? true : false);
         console.log("this is data : ", inboxRoom);
         setText(json[0].notes);
+        setOldText(json[0].notes);
       });
   }, [inboxRoom]);
 
@@ -275,7 +279,7 @@ export default function Inbox() {
                     </span>
                   </div>
                   <div>
-                    <span>Online : {activeUser.length}</span>
+                    <span>Online : {activeUserGlobal.length}</span>
                   </div>
                 </div>
                 <div style={{ margin: "5px 15px" }}>
@@ -318,119 +322,128 @@ export default function Inbox() {
                   className="p-2 hideScroll"
                   style={{ overflow: "scroll", height: "203px" }}
                 >
-                  {activeUser.map((dt, index) => (
-                    <div className="px-2 pt-1 ">
-                      {dt.onlineUser.oldUserInfo !== null ? (
-                        <div
-                          className={` ${
-                            index % 2 === 0 && " styleRowActiveUser"
-                          } hoverStyle row`}
-                          style={{
-                            cursor: "pointer",
-                            transition: "0.5s",
-                            display: "flex",
-                            fontSize: "14px",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              {dt.onlineUser.oldUserInfo.displayName}
-                            </div>
-                          </div>
-                          <div className="col-3">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              {dt.onlineUser.oldUserInfo.email}
-                            </div>
-                          </div>
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              {dt.onlineUser.oldUserInfo.address}
-                            </div>
-                          </div>
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              {dt.onlineUser.oldUserInfo.phoneNumber}
-                            </div>
-                          </div>
-
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              {dt.onlineUser.activeUserNumber}
-                            </div>
-                          </div>
-                          <div className="col-1">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              <Button
-                                onClick={() => createInbox(dt)}
-                                style={{ color: "#ff0000" }}
-                                size="small"
-                              >
-                                <b>Add</b>
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          className={` ${
-                            index % 2 === 0 && " styleRowActiveUser"
-                          } hoverStyle row`}
-                          style={{
-                            cursor: "pointer",
-                            transition: "0.5s",
-                            fontSize: "14px",
-                            display: "flex",
-                            alignItems: "center",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">---</div>
-                          </div>
-                          <div className="col-3">
-                            {" "}
-                            <div class="d-flex justify-content-center">---</div>
-                          </div>
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">---</div>
-                          </div>
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">---</div>
-                          </div>
-
-                          <div className="col-2">
-                            {" "}
-                            <div class="d-flex justify-content-center">
+                  {!activeUserGlobal.length === false &&
+                    activeUserGlobal.map((dt, index) => (
+                      <div className="px-2 pt-1 ">
+                        {dt.onlineUser.oldUserInfo !== null ? (
+                          <div
+                            className={` ${
+                              index % 2 === 0 && " styleRowActiveUser"
+                            } hoverStyle row`}
+                            style={{
+                              cursor: "pointer",
+                              transition: "0.5s",
+                              display: "flex",
+                              fontSize: "14px",
+                              alignItems: "center",
+                            }}
+                          >
+                            <div className="col-2">
                               {" "}
-                              {dt.onlineUser.activeUserNumber}
+                              <div class="d-flex justify-content-center">
+                                {dt.onlineUser.oldUserInfo.displayName}
+                              </div>
+                            </div>
+                            <div className="col-3">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                {dt.onlineUser.oldUserInfo.email}
+                              </div>
+                            </div>
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                {dt.onlineUser.oldUserInfo.address}
+                              </div>
+                            </div>
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                {dt.onlineUser.oldUserInfo.phoneNumber}
+                              </div>
+                            </div>
+
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                {dt.onlineUser.activeUserNumber}
+                              </div>
+                            </div>
+                            <div className="col-1">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                <Button
+                                  onClick={() => createInbox(dt)}
+                                  style={{ color: "#ff0000" }}
+                                  size="small"
+                                >
+                                  <b>Add</b>
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                          <div className="col-1">
-                            {" "}
-                            <div class="d-flex justify-content-center">
-                              <Button
-                                onClick={() => createInbox(dt)}
-                                style={{ color: "#ff0000" }}
-                                size="small"
-                              >
-                                <b>Add</b>
-                              </Button>
+                        ) : (
+                          <div
+                            className={` ${
+                              index % 2 === 0 && " styleRowActiveUser"
+                            } hoverStyle row`}
+                            style={{
+                              cursor: "pointer",
+                              transition: "0.5s",
+                              fontSize: "14px",
+                              display: "flex",
+                              alignItems: "center",
+                              borderRadius: "5px",
+                            }}
+                          >
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                ---
+                              </div>
+                            </div>
+                            <div className="col-3">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                ---
+                              </div>
+                            </div>
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                ---
+                              </div>
+                            </div>
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                ---
+                              </div>
+                            </div>
+
+                            <div className="col-2">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                {" "}
+                                {dt.onlineUser.activeUserNumber}
+                              </div>
+                            </div>
+                            <div className="col-1">
+                              {" "}
+                              <div class="d-flex justify-content-center">
+                                <Button
+                                  onClick={() => createInbox(dt)}
+                                  style={{ color: "#ff0000" }}
+                                  size="small"
+                                >
+                                  <b>Add</b>
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                        )}
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -538,7 +551,7 @@ export default function Inbox() {
                         setUserRightSide={setUserRightSide}
                         seInboxRoom={seInboxRoom}
                         dt={dt}
-                        activeUser={activeUser}
+                        activeUser={activeUserGlobal}
                       >
                         {" "}
                       </InboxLeftSide>
@@ -575,7 +588,7 @@ export default function Inbox() {
                 ) : (
                   inboxOn && (
                     <InboxRoom
-                      activeUser={activeUser}
+                      activeUser={activeUserGlobal}
                       inboxRoom={inboxRoom}
                       getProduct={getProduct}
                       setAllProduct={setAllProduct}
@@ -786,7 +799,9 @@ export default function Inbox() {
                       <Notes
                         inboxRoom={inboxRoom}
                         text={text}
+                        oldText={oldText}
                         setText={setText}
+                        setOldText={setOldText}
                       ></Notes>
                     )}
                   </div>

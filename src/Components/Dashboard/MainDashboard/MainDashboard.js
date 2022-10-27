@@ -10,6 +10,9 @@ export default function MainDashboard() {
   const [FunctionBarSelectionName, setFunctionBarSelectionName] =
     useState("order");
 
+  // ^ active user state for sidebar
+  const [activeUserForSidebar, setActiveUserForSideBar] = useState([]);
+
   return (
     <FunctionBarSelectionContext.Provider
       value={[FunctionBarSelectionName, setFunctionBarSelectionName]}
@@ -21,17 +24,13 @@ export default function MainDashboard() {
             style={{ height: "100vh" }}
           >
             {" "}
-            <div
-              className=""
-              style={{
-                width: "15%",
-                overflow: "scroll",
-              }}
-            >
-              <Sidebar></Sidebar>
+            <div className="SidebarStyle" style={{}}>
+              <Sidebar activeUserForSidebar={activeUserForSidebar}></Sidebar>
             </div>
             <div className="FunctionbarStyle">
-              <Functionbar></Functionbar>
+              <Functionbar
+                setActiveUserForSideBar={setActiveUserForSideBar}
+              ></Functionbar>
             </div>
           </div>
         </div>
@@ -41,6 +40,10 @@ export default function MainDashboard() {
 }
 
 const FunctionBarBack = styled.div`
+  .SidebarStyle {
+    width: 15%;
+  }
+
   .FunctionbarStyle {
     overflow-y: scroll;
     width: 85%;
@@ -64,5 +67,14 @@ const FunctionBarBack = styled.div`
   /* Handle on hover */
   .FunctionbarStyle::-webkit-scrollbar-thumb:hover {
     background: #b30000;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .SidebarStyle {
+      display: none;
+    }
+    .FunctionbarStyle {
+      width: 100%;
+    }
   }
 `;

@@ -1,16 +1,18 @@
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import CategoryIcon from "@mui/icons-material/Category";
 import ChatIcon from "@mui/icons-material/Chat";
 import ClassIcon from "@mui/icons-material/Class";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Shop2Icon from "@mui/icons-material/Shop2";
 import { default as React, useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import logo from "../../../Asset/queenz_zone_logo.png";
 import { FunctionBarSelectionContext } from "../MainDashboard/MainDashboard";
 
-export default function Sidebar() {
+export default function Sidebar({ activeUserForSidebar }) {
   // use context for sidebar name
   const [FunctionBarSelectionName, setFunctionBarSelectionName] = useContext(
     FunctionBarSelectionContext
@@ -30,7 +32,7 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <div>
+    <Sidebarback>
       <div>
         <div style={{ backgroundColor: "#FEC400", height: "100vh" }}>
           <div>
@@ -75,7 +77,7 @@ export default function Sidebar() {
                       ? " rgb(255 240 128 / 60%)"
                       : "rgb(254, 196, 0)"
                   }  `,
-                  height: "35px",
+
                   cursor: "pointer",
                 }}
               >
@@ -104,7 +106,7 @@ export default function Sidebar() {
                       ? " rgb(255 240 128 / 60%)"
                       : "rgb(254, 196, 0)"
                   }  `,
-                  height: "35px",
+
                   cursor: "pointer",
                 }}
               >
@@ -133,7 +135,7 @@ export default function Sidebar() {
                       ? " rgb(255 240 128 / 60%)"
                       : "rgb(254, 196, 0)"
                   }  `,
-                  height: "35px",
+
                   cursor: "pointer",
                 }}
               >
@@ -142,6 +144,35 @@ export default function Sidebar() {
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
                   Edit Product
+                </div>
+              </div>
+            </div>
+            <div
+              className=""
+              onClick={() => optionSelect("Product Layout")}
+              style={{
+                padding: `${
+                  optionSelectState === "Product Layout" ? "4px" : "4px"
+                }`,
+              }}
+            >
+              <div
+                class="d-flex justify-content-start p-2 "
+                style={{
+                  backgroundColor: ` ${
+                    optionSelectState === "Product Layout"
+                      ? " rgb(255 240 128 / 60%)"
+                      : "rgb(254, 196, 0)"
+                  }  `,
+
+                  cursor: "pointer",
+                }}
+              >
+                <div>
+                  <CategoryIcon></CategoryIcon>
+                </div>
+                <div className="fw-bold" style={{ marginLeft: "10px" }}>
+                  Product Layout
                 </div>
               </div>
             </div>
@@ -162,7 +193,7 @@ export default function Sidebar() {
                       ? " rgb(255 240 128 / 60%)"
                       : "rgb(254, 196, 0)"
                   }  `,
-                  height: "35px",
+
                   cursor: "pointer",
                 }}
               >
@@ -182,9 +213,8 @@ export default function Sidebar() {
               }}
             >
               <div
-                class="d-flex justify-content-start p-2 "
+                className="d-flex justify-content-between a"
                 style={{
-                  height: "35px",
                   cursor: "pointer",
                   backgroundColor: ` ${
                     optionSelectState === "Inbox"
@@ -193,12 +223,26 @@ export default function Sidebar() {
                   }  `,
                 }}
               >
-                <div>
-                  <ChatIcon></ChatIcon>
+                <div class="d-flex justify-content-start p-2 ">
+                  <div>
+                    <ChatIcon></ChatIcon>
+                  </div>
+                  <div className="fw-bold" style={{ marginLeft: "10px" }}>
+                    Inbox
+                  </div>
                 </div>
-                <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Inbox
-                </div>
+                {activeUserForSidebar && activeUserForSidebar.length > 0 && (
+                  <div className="p-2 d-flex align-items-center">
+                    <div className="userOnlineEye">
+                      <FontAwesomeIcon icon={faEye} />
+                    </div>
+                    <div>
+                      <span className="mx-1">
+                        {activeUserForSidebar && activeUserForSidebar.length}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div
@@ -326,6 +370,28 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-    </div>
+    </Sidebarback>
   );
 }
+
+const Sidebarback = styled.div`
+  user-select: none;
+
+  .userOnlineEye {
+    animation: myfirst 1s linear 0.5s infinite alternate;
+  }
+
+  @keyframes myfirst {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.3;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+`;

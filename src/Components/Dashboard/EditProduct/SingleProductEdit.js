@@ -12,17 +12,6 @@ export default function SingleProductEdit({ pd, editProductBtn }) {
     srtProductImage(props[0].image);
   };
 
-  // onClick delete product handeling
-  const deleteProduct = (props) => {
-    console.log("this is id ", props._id);
-
-    fetch(
-      `https://glacial-shore-36532.herokuapp.com/queenZoneProductDelete/${props._id}`
-    )
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-  };
-
   return (
     <div
       className="p-1 m-1"
@@ -87,7 +76,7 @@ export default function SingleProductEdit({ pd, editProductBtn }) {
                   Edit
                 </Button>
               </div>
-              <div onClick={() => deleteProduct(pd)}>
+              <div>
                 <Button variant="outlined" color="error">
                   Delete
                 </Button>

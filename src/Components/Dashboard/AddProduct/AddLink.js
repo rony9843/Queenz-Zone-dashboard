@@ -1,3 +1,4 @@
+import ColorizeIcon from "@mui/icons-material/Colorize";
 import { default as React, useContext, useState } from "react";
 import { SketchPicker } from "react-color";
 import AddPicSubmitBtn from "./AddPicSubmitBtn";
@@ -10,29 +11,30 @@ export default function AddLink({
   enableColor,
   product,
 }) {
-  const [colorr, setColorr] = useState();
+  // const [productColor, setProductColor] = useState({ background: null });
 
-  const [productColor, setProductColor] = useState({ background: "black" });
+  const [productColor, setProductColor] = useState("#6e4d34");
 
   const handleChangeComplete = (color) => {
-    setProductColor({ background: color.hex });
-    setColorr(color.hex);
+    setProductColor({ background: enableColor === false ? null : color.hex });
   };
-
-  const colorFilter = productColor.background;
 
   const [AllProductInfo, setAllProductInfo] = useContext(ProductInfoContext);
 
   const [addSingleLink, setAddSingleLink] = useState([1]);
 
   const addLink = (props) => {
-    setAddSingleLink([...addSingleLink, [props, productColor.background]]);
+    console.log("this is add link :: ", addSingleLink);
+
+    setAddSingleLink([...addSingleLink, [props, productColor]]);
   };
 
   const [submitPicBtndisabled, setSubmitPicBtndisabled] = useState(1);
 
   const vusOk = () => {
     console.log("okk");
+
+    console.log("this is submiyyyy : ", addSingleLink);
   };
 
   const [error, setError] = useState({
@@ -97,7 +99,7 @@ export default function AddLink({
       style={{ border: "1px solid #fec400", borderRadius: "10px" }}
     >
       <div className="row ">
-        <div className="col">
+        <div className="col-3">
           <div>
             {addSingleLink.map((link) => (
               <div>
@@ -191,18 +193,20 @@ export default function AddLink({
             </div>
           </div>
         </div>
-        <div className="col-4" style={{ width: "350px" }}>
-          <div className="row">
-            {photo.map((pt) => (
-              <div className="col-4">
-                <div>
-                  <img
-                    className="mb-1 mt-1 d-flex justify-content-center"
-                    style={{ width: "100px", borderRadius: "5px" }}
-                    src={pt}
-                    alt=""
-                  />
-                  {/* <hr
+
+        <div className="col">
+          <div className="mt-2" style={{ width: "100%" }}>
+            <div className="row">
+              {photo.map((pt) => (
+                <div className="col-4 p-1 " style={{ padding: "0px" }}>
+                  <div>
+                    <img
+                      className="mb-1 mt-1 d-flex justify-content-center"
+                      style={{ width: "100%", borderRadius: "5px" }}
+                      src={pt}
+                      alt=""
+                    />
+                    {/* <hr
                     style={{
                       padding: "0px",
                       margin: "0px",
@@ -210,21 +214,26 @@ export default function AddLink({
                       backgroundColor: " #fec400",
                     }}
                   /> */}
-                </div>
+                  </div>
 
-                <div className=" " style={{ height: "" }}>
-                  <DeleteBtn
-                    submitPicBtndisabled={submitPicBtndisabled}
-                    filterDeleteArray={filterDeleteArray}
-                    pt={pt}
-                    deleteUrl={deleteUrl}
-                  ></DeleteBtn>
+                  <div className=" " style={{ height: "" }}>
+                    <DeleteBtn
+                      submitPicBtndisabled={submitPicBtndisabled}
+                      filterDeleteArray={filterDeleteArray}
+                      pt={pt}
+                      deleteUrl={deleteUrl}
+                    ></DeleteBtn>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-        <div className="col-2" style={{ height: "108px", display: "none" }}>
+
+        <div
+          className="col-2 mt-2"
+          style={{ height: "108px", display: "none" }}
+        >
           <div className="d-flex align-items-end">
             <div>
               {photo.map((pt) => (
@@ -244,7 +253,7 @@ export default function AddLink({
           </div>
         </div>
 
-        <div className="col px-4">
+        <div className="col ">
           {submitPicBtndisabled > 1 ? (
             <div class=" form-check form-switch">
               <input
@@ -285,6 +294,7 @@ export default function AddLink({
                 style={{
                   cursor: "pointer",
                   display: `${product[1] && "none"}`,
+                  userSelect: "none",
                 }}
                 class="form-check-label"
                 for="flexSwitchCheckDefault"
@@ -295,13 +305,42 @@ export default function AddLink({
           )}
 
           {enableColor === false && (
+            // <SketchPicker
+            // //  color={productColor.background}
+            // //  onChangeComplete={handleChangeComplete}
+            // />
             <SketchPicker
-              color={productColor.background}
-              onChangeComplete={handleChangeComplete}
+              onChange={(color) => {
+                setProductColor(color.hex);
+                console.log("this is color : ", color.hex);
+              }}
+              color={productColor}
             />
           )}
         </div>
-        <div className="col-2">
+        <div className="col-2" style={{ padding: "0px", margin: "0px" }}>
+          {enableColor === false && (
+            <div>
+              <ColorizeIcon></ColorizeIcon>
+              <span style={{ fontSize: "13px", userSelect: "none" }}>
+                Get Color <b>Picker</b>
+              </span>
+              <input
+                onChange={(e) => {
+                  console.log(e);
+                  setProductColor(e.target.value);
+                }}
+                type="color"
+                value={productColor}
+                style={{
+                  border: "none",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              />
+            </div>
+          )}
+
           <div
             className="mt-2"
             style={{ display: `${enableColor === true ? "none" : "block"}` }}
@@ -309,7 +348,7 @@ export default function AddLink({
             <div
               style={{
                 height: "100px",
-                backgroundColor: `${productColor.background}`,
+                backgroundColor: `${productColor}`,
                 width: "100%",
                 borderRadius: "5px",
               }}
@@ -318,7 +357,7 @@ export default function AddLink({
             </div>
             <div className="">
               <span style={{ fontSize: "11px" }}>
-                Your Selection Color : {productColor.background}
+                Your Selection Color : {productColor}
               </span>
             </div>
           </div>

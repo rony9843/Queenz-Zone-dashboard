@@ -1,4 +1,10 @@
-import { createContext, default as React, useContext, useState } from "react";
+import {
+  createContext,
+  default as React,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import AddAnotherColorBtn from "./AddAnotherColorBtn";
 import AddLink from "./AddLink";
 import { AlllllProductInfoContext } from "./AllAboutProduct";
@@ -6,7 +12,7 @@ import { AlllllProductInfoContext } from "./AllAboutProduct";
 // product info create context
 export const ProductInfoContext = createContext();
 
-export default function AddProductReDesign({ demo, AllProInfo }) {
+export default function AddProductReDesign({ demo, AllProInfo, setIsColor }) {
   const [AlOverProductInfoContext, setAlOverProductInfoContext] = useContext(
     AlllllProductInfoContext
   );
@@ -24,6 +30,10 @@ export default function AddProductReDesign({ demo, AllProInfo }) {
   };
 
   const [enableColor, setEnableColor] = useState(true);
+
+  useEffect(() => {
+    setIsColor(enableColor);
+  }, [enableColor]);
 
   arrayPlus(AllProductInfo);
 
