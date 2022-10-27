@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Queenz-Zone-dashboard/static/css/main.5bb8b127.css",
-    "main.js": "/Queenz-Zone-dashboard/static/js/main.22be9666.js",
+    "main.js": "/Queenz-Zone-dashboard/static/js/main.5b5d4239.js",
     "static/js/787.b23cb5f5.chunk.js": "/Queenz-Zone-dashboard/static/js/787.b23cb5f5.chunk.js",
     "index.html": "/Queenz-Zone-dashboard/index.html",
     "main.5bb8b127.css.map": "/Queenz-Zone-dashboard/static/css/main.5bb8b127.css.map",
-    "main.22be9666.js.map": "/Queenz-Zone-dashboard/static/js/main.22be9666.js.map",
+    "main.5b5d4239.js.map": "/Queenz-Zone-dashboard/static/js/main.5b5d4239.js.map",
     "787.b23cb5f5.chunk.js.map": "/Queenz-Zone-dashboard/static/js/787.b23cb5f5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5bb8b127.css",
-    "static/js/main.22be9666.js"
+    "static/js/main.5b5d4239.js"
   ]
 }
