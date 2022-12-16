@@ -358,7 +358,9 @@ export default function EditProduct() {
 
   // fetch all product
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneFindAllProduct")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneFindAllProduct"
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log("this all product : -->> ", json);
@@ -369,7 +371,9 @@ export default function EditProduct() {
   }, []);
 
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryRead")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryRead"
+    )
       .then((response) => response.json())
       .then((json) => {
         setPCategory(json);
@@ -431,7 +435,7 @@ export default function EditProduct() {
 
         // post data
         fetch(
-          "https://glacial-shore-36532.herokuapp.com/queenZoneEditedProduct",
+          "https://queenzzoneserver-production.up.railway.app/queenZoneEditedProduct",
           {
             method: "POST", // or 'PUT'
             headers: {
@@ -465,7 +469,9 @@ export default function EditProduct() {
     console.log("this is id ", deleteValue, productNumber);
 
     if (productNumber === deleteValue) {
-      fetch(`https://glacial-shore-36532.herokuapp.com/queenZoneProductDelete/${deleteValue}`)
+      fetch(
+        `https://queenzzoneserver-production.up.railway.app/queenZoneProductDelete/${deleteValue}`
+      )
         .then((response) => response.json())
         .then((json) => {
           console.log("this is delete LLLL ", json);

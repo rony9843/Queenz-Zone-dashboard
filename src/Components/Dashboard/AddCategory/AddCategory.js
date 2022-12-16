@@ -13,7 +13,9 @@ export default function AddCategory() {
     // Update the document title using the browser API
     setTimeout(
       () =>
-        fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryRead")
+        fetch(
+          "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryRead"
+        )
           .then((response) => response.json())
           .then((json) => {
             setAllCategory(json);
@@ -26,16 +28,21 @@ export default function AddCategory() {
 
   // deleteCategory
   const deleteCategory = (props) => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryDelete", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ props }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryDelete",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ props }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-        fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryRead")
+        fetch(
+          "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryRead"
+        )
           .then((response) => response.json())
           .then((json) => {
             setAllCategory(json);
@@ -56,13 +63,16 @@ export default function AddCategory() {
     // setPostCategory(props);
 
     if (postCategory.length > 0) {
-      fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryPost", {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postCategory }),
-      })
+      fetch(
+        "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryPost",
+        {
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ postCategory }),
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
@@ -81,7 +91,7 @@ export default function AddCategory() {
     // Update the document title using the browser API
     // queenZoneCategoryLayoutRead
     fetch(
-      "https://glacial-shore-36532.herokuapp.com/queenZoneCategoryLayoutRead"
+      "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryLayoutRead"
     )
       .then((response) => response.json())
       .then((json) => {
@@ -111,13 +121,16 @@ export default function AddCategory() {
       layout: pushCategoryLayout,
     };
 
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryLayout", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ SubPro }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryLayout",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ SubPro }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);

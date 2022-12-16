@@ -42,6 +42,7 @@ export default function MainDashboard() {
 const FunctionBarBack = styled.div`
   .SidebarStyle {
     width: 15%;
+    background-color: #fec400 !important;
   }
 
   .FunctionbarStyle {

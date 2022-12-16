@@ -177,7 +177,7 @@ export default function InboxRoom({
   // send image or message
   const sendMessageBtn = ({ img, product }) => {
     fetch(
-      "https://glacial-shore-36532.herokuapp.com/queenZoneInboxSendMessage",
+      "https://queenzzoneserver-production.up.railway.app/queenZoneInboxSendMessage",
       {
         method: "POST", // or 'PUT'
         headers: {
@@ -236,12 +236,12 @@ export default function InboxRoom({
 
     if (inboxRoom !== "") {
       fetch(
-        `https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${inboxRoom}`
+        `https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${inboxRoom}`
       )
         .then((response) => response.json())
         .then((json) => {
           console.log(
-            `https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${inboxRoom}`
+            `https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${inboxRoom}`
           );
 
           setAllMessage(json);
@@ -323,11 +323,11 @@ export default function InboxRoom({
   const callMessage = (props) => {
     if (inboxRoom !== "") {
       console.log(
-        `https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${props}`
+        `https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${props}`
       );
 
       fetch(
-        `https://glacial-shore-36532.herokuapp.com/getInboxMessage?roomName=${props}`
+        `https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${props}`
       )
         .then((response) => response.json())
         .then((json) => {
@@ -366,7 +366,7 @@ export default function InboxRoom({
 
   const fetchUpdateUnseenMessage = (props) => {
     fetch(
-      `https://glacial-shore-36532.herokuapp.com/adminSeenUpdateInboxMessage?roomName=${props}`
+      `https://queenzzoneserver-production.up.railway.app/adminSeenUpdateInboxMessage?roomName=${props}`
     )
       .then((response) => response.json())
       .then((json) => {

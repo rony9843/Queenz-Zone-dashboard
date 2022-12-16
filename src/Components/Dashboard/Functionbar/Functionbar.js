@@ -9,12 +9,29 @@ import io from "socket.io-client";
 import globeSocketIo from "../../../globeVar ";
 import AddCategory from "../AddCategory/AddCategory";
 import AllAboutProduct from "../AddProduct/AllAboutProduct";
+import CarouselSection from "../CarouselSection/CarouselSection";
+
+import Components from "../Components/Components";
+import CoverflowEffectCarousel from "../CoverflowEffectCarousel/CoverflowEffectCarousel";
 import EditProduct from "../EditProduct/EditProduct";
+import GraphicDesign from "../GraphicDesign/GraphicDesign";
+import GroupPoster from "../GroupPoster/GroupPoster";
 import Inbox from "../Inbox/Inbox";
 import { FunctionBarSelectionContext } from "../MainDashboard/MainDashboard";
+import MegaDeal from "../MegaDeal/MegaDeal";
 import Order from "../Order/Order";
+import ProductGallery from "../ProductGallery/ProductGallery";
 import ProductLayout from "../ProductLayout/ProductLayout";
+import ProductPoster from "../ProductPoster/ProductPoster";
+import Profile from "../Profile/Profile";
+import Resource from "../Resource/Resource";
+import Settings from "../Settings/Settings";
+import StackedCenterCarousel from "../StackedCenterCarousel/StackedCenterCarousel";
+import StaticBanner from "../StaticBanner/StaticBanner";
 import Stock from "../Stock/Stock";
+import SwipeableCarouselComponents from "../SwipeableCarouselComponents/SwipeableCarouselComponents";
+import ThreePosters from "../ThreePosters/ThreePosters";
+import Users from "../Users/Users";
 import ViewsDashboard from "../ViewsDashboard/ViewsDashboard";
 
 export default function Functionbar({ setActiveUserForSideBar }) {
@@ -118,6 +135,50 @@ export default function Functionbar({ setActiveUserForSideBar }) {
       {FunctionBarSelectionName === "Inbox" && (
         <Inbox activeUserGlobal={activeUser}></Inbox>
       )}
+      {FunctionBarSelectionName === "Resource" && <Resource></Resource>}
+      {FunctionBarSelectionName === "Carousel" && (
+        <CarouselSection></CarouselSection>
+      )}
+      {FunctionBarSelectionName === "Components" && <Components></Components>}
+      {FunctionBarSelectionName === "GraphicDesign" && (
+        <GraphicDesign></GraphicDesign>
+      )}
+      {FunctionBarSelectionName === "ProductPoster" && (
+        <ProductPoster></ProductPoster>
+      )}
+      {FunctionBarSelectionName === "StaticBanner" && (
+        <StaticBanner></StaticBanner>
+      )}
+      {FunctionBarSelectionName === "SwipeableCarousel" && (
+        <SwipeableCarouselComponents></SwipeableCarouselComponents>
+      )}
+      {FunctionBarSelectionName === "specialOffer" && (
+        <StaticBanner></StaticBanner>
+      )}
+      {FunctionBarSelectionName === "ProductGallery" && (
+        <ProductGallery></ProductGallery>
+      )}
+      {FunctionBarSelectionName === "GroupProduct" && (
+        <StaticBanner></StaticBanner>
+      )}
+      {FunctionBarSelectionName === "GroupPoster" && (
+        <GroupPoster></GroupPoster>
+      )}
+      {FunctionBarSelectionName === "MegaDeal" && <MegaDeal></MegaDeal>}
+
+      {FunctionBarSelectionName === "StackedCenterCarousel" && (
+        <StackedCenterCarousel></StackedCenterCarousel>
+      )}
+
+      {FunctionBarSelectionName === "ThreePosters" && (
+        <ThreePosters></ThreePosters>
+      )}
+      {FunctionBarSelectionName === "CoverflowEffectCarousel" && (
+        <CoverflowEffectCarousel></CoverflowEffectCarousel>
+      )}
+      {FunctionBarSelectionName === "settings" && <Settings></Settings>}
+      {FunctionBarSelectionName === "profile" && <Profile></Profile>}
+      {FunctionBarSelectionName === "Users" && <Users></Users>}
     </div>
   );
 }

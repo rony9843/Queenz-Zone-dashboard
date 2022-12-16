@@ -6,7 +6,9 @@ export default function CategoryProductLength({ ca }) {
   // for length
   useEffect(() => {
     // Update the document title using the browser API
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneFindAllProduct")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneFindAllProduct"
+    )
       .then((response) => response.json())
       .then((json) => {
         const filterProduct = json.filter(

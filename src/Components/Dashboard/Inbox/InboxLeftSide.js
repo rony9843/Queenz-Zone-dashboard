@@ -73,7 +73,7 @@ export default function InboxLeftSide({
     //  console.log("this is json ", golData);
     // get message
     fetch(
-      `https://glacial-shore-36532.herokuapp.com/getInboxOneMessage?roomName=${golData.room}`
+      `https://queenzzoneserver-production.up.railway.app/getInboxOneMessage?roomName=${golData.room}`
     )
       .then((response) => response.json())
       .then((json) => {

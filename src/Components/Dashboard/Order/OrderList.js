@@ -558,7 +558,7 @@ export default function OrderList({
                                   variant="contained"
                                   onClick={() =>
                                     fetch(
-                                      "https://glacial-shore-36532.herokuapp.com/queenZoneEditedOrderStatus",
+                                      "https://queenzzoneserver-production.up.railway.app/queenZoneEditedOrderStatus",
                                       {
                                         method: "POST", // or 'PUT'
                                         headers: {
@@ -626,7 +626,7 @@ export default function OrderList({
                                     orderDeleteInput !== "" &&
                                     orderDeleteInput === or._id
                                       ? fetch(
-                                          "https://glacial-shore-36532.herokuapp.com/queenZoneDeleteOrder",
+                                          "https://queenzzoneserver-production.up.railway.app/queenZoneDeleteOrder",
                                           {
                                             method: "POST", // or 'PUT'
                                             headers: {

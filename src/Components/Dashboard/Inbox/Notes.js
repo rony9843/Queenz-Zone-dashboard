@@ -26,13 +26,16 @@ export default function Notes({
 
   // ^ for save
   const saveText = () => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneInboxNotes", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ room: inboxRoom, notes: text }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneInboxNotes",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ room: inboxRoom, notes: text }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("this is save btn for fetch : ", data);

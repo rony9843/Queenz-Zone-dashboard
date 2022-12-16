@@ -15,7 +15,7 @@ export default function ViewsDashboard() {
   const [calFuntion, setCalFuntion] = useState(false);
 
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/getVisitorInfo")
+    fetch("https://queenzzoneserver-production.up.railway.app/getVisitorInfo")
       .then((response) => response.json())
       .then((json) => {
         setViewsData(json);
@@ -75,27 +75,44 @@ export default function ViewsDashboard() {
                       className="row"
                       style={{ fontWeight: "bold", color: "#fec400" }}
                     >
-                      <div className="col-2">IPv4</div>
-                      <div className="col-2">city</div>
-                      <div className="col-2">country_code</div>
-                      <div className="col-2">country_name</div>
-                      <div className="col-2">postal</div>
+                      <div className="col-1">IPv4</div>
+                      <div className="col-3">Email</div>
+                      <div className="col-2">User Web Number</div>
+                      <div className="col-1">city</div>
+                      <div className="col-1">ctry code</div>
+                      <div className="col-2">ctry name</div>
+                      <div className="col-1">postal</div>
                       {vw.vInfo.visitorInfo.product !== "" && (
-                        <div className="col-2">product</div>
+                        <div className="col-1">product</div>
                       )}
                     </div>
                     <div className="row">
-                      <div className="col-2">{vw.vInfo.visitorInfo.IPv4}</div>
-                      <div className="col-2">{vw.vInfo.visitorInfo.city}</div>
+                      <div className="col-1">{vw.vInfo.visitorInfo.IPv4}</div>
+                      <div className="col-3">
+                        {console.log(
+                          "this is user infoooooooooo::: ",
+                          vw.vInfo.visitorInfo.curentUserInfo.activeUserInfo
+                        )}
+                        {vw.vInfo.visitorInfo.curentUserInfo.activeUserInfo ===
+                        "old"
+                          ? vw.vInfo.visitorInfo.curentUserInfo.oldUserInfo
+                              .email
+                          : "----"}
+                      </div>
                       <div className="col-2">
+                        {vw.vInfo.visitorInfo.localVisitorNumber &&
+                          vw.vInfo.visitorInfo.localVisitorNumber}
+                      </div>
+                      <div className="col-1">{vw.vInfo.visitorInfo.city}</div>
+                      <div className="col-1">
                         {vw.vInfo.visitorInfo.country_code}
                       </div>
                       <div className="col-2">
                         {vw.vInfo.visitorInfo.country_name}
                       </div>
-                      <div className="col-2">{vw.vInfo.visitorInfo.postal}</div>
+                      <div className="col-1">{vw.vInfo.visitorInfo.postal}</div>
                       {vw.vInfo.visitorInfo.product !== "" && (
-                        <div className="col-2">
+                        <div className="col-1">
                           {" "}
                           {
                             <img

@@ -51,7 +51,7 @@ export default function EditModal({ setEditModalHtml, dt, btn }) {
   const submitEditMessage = () => {
     if (editMessage !== "" && editMessage !== dt.message.message) {
       fetch(
-        "https://glacial-shore-36532.herokuapp.com/queenZoneInboxEditMessage",
+        "https://queenzzoneserver-production.up.railway.app/queenZoneInboxEditMessage",
         {
           method: "POST", // or 'PUT'
           headers: {
@@ -74,7 +74,7 @@ export default function EditModal({ setEditModalHtml, dt, btn }) {
   // ^ for message delete
   const editmessageDelete = () => {
     fetch(
-      "https://glacial-shore-36532.herokuapp.com/queenZoneInboxEditDeleteMessage",
+      "https://queenzzoneserver-production.up.railway.app/queenZoneInboxEditDeleteMessage",
       {
         method: "POST", // or 'PUT'
         headers: {

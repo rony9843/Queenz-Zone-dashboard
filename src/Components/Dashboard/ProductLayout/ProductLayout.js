@@ -8,7 +8,9 @@ export default function ProductLayout() {
 
   // ^ fetch all category
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCategoryRead")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneCategoryRead"
+    )
       .then((response) => response.json())
       .then((json) => {
         setAllLayout(json);
@@ -19,7 +21,9 @@ export default function ProductLayout() {
 
   // ^ fetch all category
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneFindAllProduct")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneFindAllProduct"
+    )
       .then((response) => response.json())
       .then((json) => {
         setAllProducts(json);

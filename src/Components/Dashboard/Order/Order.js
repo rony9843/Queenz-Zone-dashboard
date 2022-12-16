@@ -105,7 +105,9 @@ export default function Order() {
   };
 
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneAllOrder")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneAllOrder"
+    )
       .then((response) => response.json())
       .then((json) => {
         setAllOrder(json);
@@ -133,7 +135,9 @@ export default function Order() {
   const [callUseEffect, setCallUseEffect] = useState(false);
 
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneAllOrder")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneAllOrder"
+    )
       .then((response) => response.json())
       .then((json) => {
         setAllOrder(json);

@@ -102,7 +102,9 @@ export default function Inbox({ activeUserGlobal }) {
 
   // inbox left side
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/getInboxLeftSideInfo")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/getInboxLeftSideInfo"
+    )
       .then((response) => response.json())
       .then((json) => {
         setInboxLeftSideInfo(json);
@@ -115,7 +117,9 @@ export default function Inbox({ activeUserGlobal }) {
 
   // inbox left side
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/getInboxLeftSideInfo")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/getInboxLeftSideInfo"
+    )
       .then((response) => response.json())
       .then((json) => {
         setInboxLeftSideInfo(json);
@@ -131,13 +135,16 @@ export default function Inbox({ activeUserGlobal }) {
   // create inbox
   const createInbox = (props) => {
     // post data
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneCreateInbox", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ props }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneCreateInbox",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ props }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         callUseEffectForLeftInboxList();
@@ -152,7 +159,9 @@ export default function Inbox({ activeUserGlobal }) {
 
   const getProduct = () => {
     // ? fetch all product
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneFindAllProduct")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneFindAllProduct"
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
@@ -172,7 +181,9 @@ export default function Inbox({ activeUserGlobal }) {
   const [userAllAcount, setUserAllAccount] = useState([]);
 
   useEffect(() => {
-    fetch("https://glacial-shore-36532.herokuapp.com/queenZoneFindAllUser")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneFindAllUser"
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
@@ -193,7 +204,7 @@ export default function Inbox({ activeUserGlobal }) {
 
   useEffect(() => {
     fetch(
-      `https://glacial-shore-36532.herokuapp.com/queenZoneInboxNotesFind?roomName=${inboxRoom}`
+      `https://queenzzoneserver-production.up.railway.app/queenZoneInboxNotesFind?roomName=${inboxRoom}`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -212,7 +223,7 @@ export default function Inbox({ activeUserGlobal }) {
 
   useEffect(() => {
     fetch(
-      `https://glacial-shore-36532.herokuapp.com/queenZoneOrderFindOneUser?email=${inboxRoom}`
+      `https://queenzzoneserver-production.up.railway.app/queenZoneOrderFindOneUser?email=${inboxRoom}`
     )
       .then((response) => response.json())
       .then((json) => {
