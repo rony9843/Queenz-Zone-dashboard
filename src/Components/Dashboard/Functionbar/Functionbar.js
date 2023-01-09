@@ -13,13 +13,16 @@ import CarouselSection from "../CarouselSection/CarouselSection";
 
 import Components from "../Components/Components";
 import CoverflowEffectCarousel from "../CoverflowEffectCarousel/CoverflowEffectCarousel";
+import CreatePage from "../CreatePage/CreatePage";
 import EditProduct from "../EditProduct/EditProduct";
 import GraphicDesign from "../GraphicDesign/GraphicDesign";
 import GroupPoster from "../GroupPoster/GroupPoster";
+import HomePageLayout from "../HomePageLayout/HomePageLayout";
 import Inbox from "../Inbox/Inbox";
 import { FunctionBarSelectionContext } from "../MainDashboard/MainDashboard";
 import MegaDeal from "../MegaDeal/MegaDeal";
 import Order from "../Order/Order";
+import ProductCards from "../ProductCards/ProductCards";
 import ProductGallery from "../ProductGallery/ProductGallery";
 import ProductLayout from "../ProductLayout/ProductLayout";
 import ProductPoster from "../ProductPoster/ProductPoster";
@@ -31,6 +34,7 @@ import StaticBanner from "../StaticBanner/StaticBanner";
 import Stock from "../Stock/Stock";
 import SwipeableCarouselComponents from "../SwipeableCarouselComponents/SwipeableCarouselComponents";
 import ThreePosters from "../ThreePosters/ThreePosters";
+import Top20 from "../Top20/Top20";
 import Users from "../Users/Users";
 import ViewsDashboard from "../ViewsDashboard/ViewsDashboard";
 
@@ -59,7 +63,9 @@ export default function Functionbar({ setActiveUserForSideBar }) {
     // get data
     // socket.current.emit("user-connected", (user) => {});
 
-    socket.current = io(globeSocketIo);
+    socket.current = io(globeSocketIo, {
+      transports: ["websocket", "polling"], // use WebSocket first, if available
+    });
 
     // get data
     socket.current.on("get-user-connected", (user) => {
@@ -74,7 +80,9 @@ export default function Functionbar({ setActiveUserForSideBar }) {
 
   useEffect(() => {
     // get data
-    socket.current = io(globeSocketIo);
+    socket.current = io(globeSocketIo, {
+      transports: ["websocket", "polling"], // use WebSocket first, if available
+    });
     // get data
     socket.current.on("get-online-user-disconnect", (user) => {
       setActiveUser(user);
@@ -87,7 +95,9 @@ export default function Functionbar({ setActiveUserForSideBar }) {
 
   //call
   useEffect(() => {
-    socket.current = io(globeSocketIo);
+    socket.current = io(globeSocketIo, {
+      transports: ["websocket", "polling"], // use WebSocket first, if available
+    });
     // get data
     socket.current.on("get-online-user", (user) => {
       setActiveUser(user);
@@ -100,7 +110,9 @@ export default function Functionbar({ setActiveUserForSideBar }) {
 
   //call
   useEffect(() => {
-    socket.current = io(globeSocketIo);
+    socket.current = io(globeSocketIo, {
+      transports: ["websocket", "polling"], // use WebSocket first, if available
+    });
     // get data
     socket.current.emit("user-connected", "hiiiiiiii");
 
@@ -127,6 +139,9 @@ export default function Functionbar({ setActiveUserForSideBar }) {
       )}
       {FunctionBarSelectionName === "Product Layout" && (
         <ProductLayout></ProductLayout>
+      )}
+      {FunctionBarSelectionName === "HomePageLayout" && (
+        <HomePageLayout></HomePageLayout>
       )}
       {FunctionBarSelectionName === "Views" && (
         <ViewsDashboard></ViewsDashboard>
@@ -176,6 +191,11 @@ export default function Functionbar({ setActiveUserForSideBar }) {
       {FunctionBarSelectionName === "CoverflowEffectCarousel" && (
         <CoverflowEffectCarousel></CoverflowEffectCarousel>
       )}
+      {FunctionBarSelectionName === "Top20" && <Top20></Top20>}
+      {FunctionBarSelectionName === "ProductCards" && (
+        <ProductCards></ProductCards>
+      )}
+      {FunctionBarSelectionName === "CreatePage" && <CreatePage></CreatePage>}
       {FunctionBarSelectionName === "settings" && <Settings></Settings>}
       {FunctionBarSelectionName === "profile" && <Profile></Profile>}
       {FunctionBarSelectionName === "Users" && <Users></Users>}

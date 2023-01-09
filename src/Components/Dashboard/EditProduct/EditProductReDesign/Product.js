@@ -10,7 +10,7 @@ export default function Product({ p, editProductBtn }) {
 
   return (
     <ProductBack>
-      <div>
+      <div style={{ width: "200px" }}>
         <div>
           <div className="product-main-div">
             <div>
@@ -22,7 +22,7 @@ export default function Product({ p, editProductBtn }) {
                 >
                   {img.map((img) => (
                     <div>
-                      <img src={img[0]} alt="" />
+                      <img class="img-fluid" src={img[0]} alt="" />
                     </div>
                   ))}
                 </Carousel>
@@ -45,7 +45,12 @@ export default function Product({ p, editProductBtn }) {
                 </div>
               </div>
               <div>
-                <span className="product_name">{p.ProductName}</span>
+                <span className="product_name">
+                  {" "}
+                  {p.ProductName.length > 50
+                    ? p.ProductName.substring(0, 60) + "..."
+                    : p.ProductName}
+                </span>
               </div>
               <div className="d-flex justify-content-end">
                 <Button
@@ -73,7 +78,7 @@ const ProductBack = styled.div`
     border-radius: 5px;
   }
   .carousel_div {
-    width: 150px;
+    width: 100%;
   }
   .carousel_div img {
     border-radius: 10px;

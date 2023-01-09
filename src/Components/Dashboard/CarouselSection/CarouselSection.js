@@ -65,13 +65,16 @@ export default function CarouselSection() {
         mb: carouselMb,
       };
 
-      fetch("http://localhost:5000/queenZoneComponentsLayout", {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ componentsSection }),
-      })
+      fetch(
+        "https://queenzzoneserver-production.up.railway.app/queenZoneComponentsLayout",
+        {
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ componentsSection }),
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
@@ -106,7 +109,9 @@ export default function CarouselSection() {
   ]);
 
   const readData = () => {
-    fetch("http://localhost:5000/queenZoneReadComponentsSection")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneReadComponentsSection"
+    )
       .then((response) => response.json())
       .then((json) => {
         setFetchAllData(json);
@@ -115,13 +120,16 @@ export default function CarouselSection() {
 
   // delete data from database
   const deleteData = (props) => {
-    fetch("http://localhost:5000/queenZoneDeleteComponentsSection", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: props }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneDeleteComponentsSection",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: props }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         readData();
@@ -190,16 +198,19 @@ export default function CarouselSection() {
     };
 
     console.log(componentsSection, " 234 :: ", carouselMb, carouselMt);
-    fetch("http://localhost:5000/queenZoneUpdateComponentsSection", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: carouselDbId,
-        componentsSection: componentsSection,
-      }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneUpdateComponentsSection",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: carouselDbId,
+          componentsSection: componentsSection,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         readData();

@@ -42,6 +42,7 @@
     "react-input-files": "^1.2.0",
     "react-ipgeolocation": "^1.4.0",
     "react-messenger-customer-chat": "^0.8.0",
+    "react-modal": "^3.16.1",
     "react-moment": "^1.1.2",
     "react-multi-select-component": "^4.2.4",
     "react-qty-picker": "^1.0.6",

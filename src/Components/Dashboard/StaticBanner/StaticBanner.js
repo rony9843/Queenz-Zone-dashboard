@@ -38,15 +38,18 @@ export default function StaticBanner() {
         target: target,
       };
 
-      fetch("http://localhost:5000/queenZoneStaticPoster", {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          componentsSection: componentsSection,
-        }),
-      })
+      fetch(
+        "https://queenzzoneserver-production.up.railway.app/queenZoneStaticPoster",
+        {
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            componentsSection: componentsSection,
+          }),
+        }
+      )
         .then((response) => response.json())
         .then((data) => {})
         .catch((error) => {
@@ -57,7 +60,9 @@ export default function StaticBanner() {
   };
 
   const readData = () => {
-    fetch("http://localhost:5000/queenZoneReadStaticPoster")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneReadStaticPoster"
+    )
       .then((response) => response.json())
       .then((json) => {
         setAllDbData(json);
@@ -71,13 +76,16 @@ export default function StaticBanner() {
 
   // delete from db
   const deleteDb = (props) => {
-    fetch("http://localhost:5000/queenZoneDeleteStaticBanner", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: props }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneDeleteStaticBanner",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: props }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         readData();

@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 
 export default function ResourceSection() {
   const fetchAllResource = () => {
-    fetch("http://localhost:5000/queenZoneAllResource")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneAllResource"
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log("this is all fetch data resource : ", json);
@@ -16,13 +18,16 @@ export default function ResourceSection() {
     console.log("this is delete image from database : ", props);
 
     // data upload
-    fetch("http://localhost:5000/queenZoneDeleteResource", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: props._id }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneDeleteResource",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: props._id }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
@@ -42,7 +47,9 @@ export default function ResourceSection() {
   const [filterOthers, setFilterOthers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/queenZoneAllResource")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneAllResource"
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log("this is all fetch data resource : ", json);

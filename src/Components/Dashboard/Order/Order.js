@@ -43,7 +43,7 @@ export default function Order() {
   // ^ this is
   // find this user order
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/queenZoneAllOrder/`)
+  //   fetch(`https://queenzzoneserver-production.up.railway.app/queenZoneAllOrder/`)
   //     .then((response) => response.json())
   //     .then((json) => {
   //       console.log("this is order : ", order);

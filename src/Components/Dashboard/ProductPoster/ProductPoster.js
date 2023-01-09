@@ -105,13 +105,16 @@ export default function ProductPoster() {
         titleImageMx: titleImageMx,
       };
 
-      fetch("http://localhost:5000/queenZoneProductsPoster", {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ componentsSection }),
-      })
+      fetch(
+        "https://queenzzoneserver-production.up.railway.app/queenZoneProductsPoster",
+        {
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ componentsSection }),
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           setPosterAllUrl([]);
@@ -156,20 +159,25 @@ export default function ProductPoster() {
 
   // data read from db
   const readData = () => {
-    fetch("http://localhost:5000/queenZoneReadProductPoster")
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneReadProductPoster"
+    )
       .then((response) => response.json())
       .then((json) => setDbData(json));
   };
 
   // delete from db
   const deleteDb = (props) => {
-    fetch("http://localhost:5000/queenZoneDeleteProductsPoster", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: props }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneDeleteProductsPoster",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: props }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         readData();
@@ -279,16 +287,19 @@ export default function ProductPoster() {
       titleImageMx: titleImageMx,
     };
 
-    fetch("http://localhost:5000/queenZoneUpdateProductPoster", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: dbId,
-        componentsSection: componentsSection,
-      }),
-    })
+    fetch(
+      "https://queenzzoneserver-production.up.railway.app/queenZoneUpdateProductPoster",
+      {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: dbId,
+          componentsSection: componentsSection,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setPosterAllUrl([]);

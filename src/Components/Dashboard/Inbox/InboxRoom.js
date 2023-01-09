@@ -254,7 +254,7 @@ export default function InboxRoom({
   // // for fetch message
   // useEffect(() => {
   //   if (inboxRoom !== "") {
-  //     fetch(`http://localhost:5000/getInboxMessage?roomName=${inboxRoom}`)
+  //     fetch(`https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${inboxRoom}`)
   //       .then((response) => response.json())
   //       .then((json) => {
   //         console.log(" this user chat update : 2 ", json);
@@ -282,7 +282,7 @@ export default function InboxRoom({
 
   // setTimeout(() => {
   //   if (inboxRoom !== "") {
-  //     fetch(`http://localhost:5000/getInboxMessage?roomName=${inboxRoom}`)
+  //     fetch(`https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${inboxRoom}`)
   //       .then((response) => response.json())
   //       .then((json) => {
   //         console.log(updateCount, " this user chat update : 3 ", json);
@@ -299,7 +299,7 @@ export default function InboxRoom({
   //     setUpdateCount(updateCount + 1);
   //     if (inboxRoom !== "") {
   //       console.log(
-  //         `http://localhost:5000/getInboxMessage?roomName=${inboxRoom}`
+  //         `https://queenzzoneserver-production.up.railway.app/getInboxMessage?roomName=${inboxRoom}`
   //       );
 
   //       fetch(thisUserRoom)

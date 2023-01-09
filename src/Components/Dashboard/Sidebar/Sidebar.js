@@ -1,7 +1,9 @@
 import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AdUnitsIcon from "@mui/icons-material/AdUnits";
+import AodIcon from "@mui/icons-material/Aod";
 import AppShortcutIcon from "@mui/icons-material/AppShortcut";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import BrushIcon from "@mui/icons-material/Brush";
@@ -18,6 +20,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ShopIcon from "@mui/icons-material/Shop";
 import Shop2Icon from "@mui/icons-material/Shop2";
 import SourceIcon from "@mui/icons-material/Source";
 import ThreeMpIcon from "@mui/icons-material/ThreeMp";
@@ -196,6 +199,35 @@ export default function Sidebar({ activeUserForSidebar }) {
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
                   Product Layout
+                </div>
+              </div>
+            </div>
+            <div
+              className=""
+              onClick={() => optionSelect("HomePageLayout")}
+              style={{
+                padding: `${
+                  optionSelectState === "HomePageLayout" ? "4px" : "4px"
+                }`,
+              }}
+            >
+              <div
+                class="d-flex justify-content-start p-2 "
+                style={{
+                  backgroundColor: ` ${
+                    optionSelectState === "HomePageLayout"
+                      ? " rgb(255 240 128 / 60%)"
+                      : "rgb(254, 196, 0)"
+                  }  `,
+
+                  cursor: "pointer",
+                }}
+              >
+                <div>
+                  <AodIcon></AodIcon>
+                </div>
+                <div className="fw-bold" style={{ marginLeft: "10px" }}>
+                  Home Layout
                 </div>
               </div>
             </div>
@@ -412,6 +444,91 @@ export default function Sidebar({ activeUserForSidebar }) {
             </div>
             <div
               className=""
+              onClick={() => optionSelect("Top20")}
+              style={{
+                padding: `${optionSelectState === "Top20" ? "4px" : "4px"}`,
+              }}
+            >
+              <div
+                class="d-flex justify-content-start p-2 "
+                style={{
+                  height: "35px",
+                  cursor: "pointer",
+                  backgroundColor: ` ${
+                    optionSelectState === "Top20"
+                      ? " rgb(255 240 128 / 60%)"
+                      : "rgb(254, 196, 0)"
+                  }  `,
+                }}
+              >
+                <div>
+                  <SourceIcon />
+                </div>
+                <div className="fw-bold" style={{ marginLeft: "10px" }}>
+                  Top 20
+                </div>
+              </div>
+            </div>
+            <div
+              className=""
+              onClick={() => optionSelect("CreatePage")}
+              style={{
+                padding: `${
+                  optionSelectState === "CreatePage" ? "4px" : "4px"
+                }`,
+              }}
+            >
+              <div
+                class="d-flex justify-content-start p-2 "
+                style={{
+                  height: "35px",
+                  cursor: "pointer",
+                  backgroundColor: ` ${
+                    optionSelectState === "CreatePage"
+                      ? " rgb(255 240 128 / 60%)"
+                      : "rgb(254, 196, 0)"
+                  }  `,
+                }}
+              >
+                <div>
+                  <AddCircleIcon></AddCircleIcon>
+                </div>
+                <div className="fw-bold" style={{ marginLeft: "10px" }}>
+                  Create Page
+                </div>
+              </div>
+            </div>
+            <div
+              className=""
+              onClick={() => optionSelect("ProductCards")}
+              style={{
+                padding: `${
+                  optionSelectState === "ProductCards" ? "4px" : "4px"
+                }`,
+              }}
+            >
+              <div
+                class="d-flex justify-content-start p-2 "
+                style={{
+                  height: "35px",
+                  cursor: "pointer",
+                  backgroundColor: ` ${
+                    optionSelectState === "ProductCards"
+                      ? " rgb(255 240 128 / 60%)"
+                      : "rgb(254, 196, 0)"
+                  }  `,
+                }}
+              >
+                <div>
+                  <ShopIcon></ShopIcon>
+                </div>
+                <div className="fw-bold" style={{ marginLeft: "10px" }}>
+                  Product Cards
+                </div>
+              </div>
+            </div>
+            <div
+              className=""
               onClick={() => optionSelect("Carousel")}
               style={{
                 padding: `${optionSelectState === "Carousel" ? "4px" : "4px"}`,
@@ -549,7 +666,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <AppShortcutIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Special Offer
+                  Special Offer X
                 </div>
               </div>
             </div>
@@ -578,7 +695,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <CollectionsIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Product Gallery
+                  Product Gallery X
                 </div>
               </div>
             </div>
@@ -607,7 +724,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <Diversity2Icon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Group Product
+                  Group Product X
                 </div>
               </div>
             </div>
@@ -634,7 +751,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <CampaignIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Mega Deal
+                  Mega Deal X
                 </div>
               </div>
             </div>
@@ -663,7 +780,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <ArtTrackIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Group Poster
+                  Group Poster X
                 </div>
               </div>
             </div>
@@ -692,7 +809,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <ViewStreamIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Stacked Carousel
+                  Stacked Carousel X
                 </div>
               </div>
             </div>
@@ -721,7 +838,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <ThreeMpIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Three Posters
+                  Three Posters X
                 </div>
               </div>
             </div>
@@ -752,7 +869,7 @@ export default function Sidebar({ activeUserForSidebar }) {
                   <PanoramaPhotosphereSelectIcon />
                 </div>
                 <div className="fw-bold" style={{ marginLeft: "10px" }}>
-                  Coverflow Carousel
+                  Coverflow Carousel X
                 </div>
               </div>
             </div>

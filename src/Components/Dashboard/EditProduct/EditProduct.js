@@ -857,9 +857,11 @@ export default function EditProduct() {
                                 type="text"
                                 class="form-control"
                                 onChange={(e) =>
-                                  setFinalProductName(e.target.value)
+                                  setBtnEditOneProductProductName(
+                                    e.target.value
+                                  )
                                 }
-                                value={FinalProductName}
+                                value={btnEditOneProductProductName}
                                 id="productName"
                                 placeholder="product's name"
                                 style={{ width: "100%" }}
@@ -1880,30 +1882,33 @@ export default function EditProduct() {
                                       height: "150px",
                                     }}
                                   >
-                                    {inputAllSize.map((sz) => (
-                                      <div
-                                        className="p-1 m-1"
-                                        style={{
-                                          backgroundColor: "white",
-                                          borderRadius: "5px",
-                                          display: "inline-block",
-                                        }}
-                                      >
-                                        <span>{sz}</span>
+                                    {!inputAllSize.length === false &&
+                                      inputAllSize.map((sz) => (
                                         <div
-                                          onClick={() => deleteSizeBtn(sz)}
+                                          className="p-1 m-1"
                                           style={{
-                                            fontSize: "14px",
-                                            padding: "0px 5px",
+                                            backgroundColor: "white",
+                                            borderRadius: "5px",
                                             display: "inline-block",
-                                            color: "red",
-                                            cursor: "pointer",
                                           }}
                                         >
-                                          <FontAwesomeIcon icon={faTrashCan} />
+                                          <span>{sz}</span>
+                                          <div
+                                            onClick={() => deleteSizeBtn(sz)}
+                                            style={{
+                                              fontSize: "14px",
+                                              padding: "0px 5px",
+                                              display: "inline-block",
+                                              color: "red",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            <FontAwesomeIcon
+                                              icon={faTrashCan}
+                                            />
+                                          </div>
                                         </div>
-                                      </div>
-                                    ))}
+                                      ))}
                                   </div>
                                 </div>
                               </div>
@@ -2071,6 +2076,7 @@ export default function EditProduct() {
                           </div>
                           <div>
                             <Button
+                              onClick={() => allEditSubmitBtn()}
                               variant="contained"
                               style={{ backgroundColor: "#FEC400" }}
                             >
